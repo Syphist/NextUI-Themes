@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""
+Script to generate the NextUI Themes Gallery
+Updated to work with the new directory structure
+"""
+
 import os
 import json
 import math
@@ -146,7 +151,13 @@ def generate_item_card(item, type_key, width=None):
     # URLs
     preview_url = f"{RAW_URL}/{item.get('preview_path', '')}"
     download_url = item.get("URL", "")
-    history_url = f"{REPO_URL}/commits/main/Catalog/{type_key}/{name}"
+
+    # Update history URL to use new path structure
+    if type_key == "themes":
+        history_url = f"{REPO_URL}/commits/main/Catalog/Themes/{name}"
+    else:
+        component_dir = COMPONENT_TYPES[type_key]["title"]
+        history_url = f"{REPO_URL}/commits/main/Catalog/{component_dir}/{name}"
 
     # Special features
     has_readme = False  # We'd need to check if README exists
@@ -295,7 +306,7 @@ def generate_category_pages(catalog, type_key):
     if type_key == "themes":
         all_items = catalog.get("themes", {}).values()
     else:
-        all_items = catalog.get("components", {}).get(type_key, {}).values()
+        all_items = catalog.get("components", {}).get(type_key.rstrip('s'), {}).values()
 
     # Filter out invalid items
     items = [item for item in all_items if is_valid_item(item)]
@@ -311,7 +322,7 @@ def generate_category_pages(catalog, type_key):
         print(f"Generating system-based pages for {type_info['title']}")
 
         # Get overlay items as dictionary with names
-        overlay_items = catalog.get("components", {}).get(type_key, {})
+        overlay_items = catalog.get("components", {}).get(type_key.rstrip('s'), {})
 
         # Filter invalid items
         overlay_items = {name: item for name, item in overlay_items.items()
