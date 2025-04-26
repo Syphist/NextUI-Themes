@@ -1,110 +1,12 @@
 {
   "last_updated": "2025-04-26T17:12:14.870328Z",
-  "themes": {
-    "Pop-Tarts-Clean.theme": {
-      "author": "Shin",
-      "repository": "https://github.com/KrutzOtrem/pop-tarts.theme/tree/Clean",
-      "commit": "a53b93ef9baef44da11db81576abbdf8296eab9f",
-      "preview_path": "Catalog/.metadata/previews/Pop-Tarts-Clean.theme.png",
-      "manifest_path": "Catalog/.metadata/manifests/Pop-Tarts-Clean.theme.json",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/themes/Pop-Tarts-Clean.theme.zip",
-      "description": "Pop-Tarts Clean.theme"
-    },
-    "Deep-Space.theme": {
-      "preview_path": "Catalog/.metadata/previews/Deep-Space.theme.png",
-      "manifest_path": "Catalog/.metadata/manifests/Deep-Space.theme.json",
-      "author": "Shin",
-      "description": "Deep Space",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/themes/Deep-Space.theme.zip"
-    },
-    "Consolized.theme": {
-      "preview_path": "Catalog/.metadata/previews/Consolized.theme.png",
-      "manifest_path": "Catalog/.metadata/manifests/Consolized.theme.json",
-      "author": "Gamnrd",
-      "description": "Consolized.theme",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/themes/Consolized.theme.zip"
-    }
-    "Default.theme": {
-      "preview_path": "Catalog/.metadata/previews/Default.theme.png",
-      "manifest_path": "Catalog/.metadata/manifests/Default.theme.json",
-      "author": "NextUI",
-      "description": "Default.theme",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/themes/Default.theme.zip"
-    }
-  },
+  "themes": {},
   "components": {
     "accents": {},
     "leds": {},
     "icons": {},
     "fonts": {},
-    "wallpapers": {
-      "Retro-Programmer.bg": {
-        "preview_path": "Catalog/.metadata/previews/Retro-Programmer.bg.png",
-        "manifest_path": "Catalog/.metadata/manifests/Retro-Programmer.bg.json",
-        "author": "Leviathan",
-        "description": "Retro-Programmer.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Retro-Programmer.bg.zip"
-      },
-      "Blackstreets.bg": {
-        "preview_path": "Catalog/Components/Wallpapers/previews/Blackstreets.bg.png",
-        "manifest_path": "Catalog/Components/Wallpapers/manifests/Blackstreets.bg.json",
-        "author": "Leviathan",
-        "description": "Blackstreets.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Blackstreets.bg.zip"
-      },
-      "Sunset-Forest.bg": {
-        "preview_path": "Catalog/Components/Wallpapers/previews/Sunset-Forest.bg.png",
-        "manifest_path": "Catalog/Components/Wallpapers/manifests/Sunset-Forest.bg.json",
-        "author": "Leviathan",
-        "description": "Sunset-Forest.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Sunset-Forest.bg.zip"
-      },
-      "Retro-Mario-Chill.bg": {
-        "preview_path": "Catalog/Components/Wallpapers/previews/Retro-Mario-Chill.bg.png",
-        "manifest_path": "Catalog/Components/Wallpapers/manifests/Retro-Mario-Chill.bg.json",
-        "author": "Leviathan",
-        "description": "Retro-Mario-Chill.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Retro-Mario-Chill.bg.zip"
-      },
-      "Cozy.bg": {
-        "preview_path": "Catalog/Components/Wallpapers/previews/Cozy.bg.png",
-        "manifest_path": "Catalog/Components/Wallpapers/manifests/Cozy.bg.json",
-        "author": "Leviathan",
-        "description": "Cozy.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Cozy.bg.zip"
-      },
-      "Default.bg": {
-        "preview_path": "Catalog/Components/Wallpapers/previews/Default.bg.png",
-        "manifest_path": "Catalog/Components/Wallpapers/manifests/Default.bg.json",
-        "author": "Leviathan",
-        "description": "Default.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Default.bg.zip"
-      },
-      "Firewatch.bg": {
-        "preview_path": "Catalog/Components/Wallpapers/previews/Firewatch.bg.png",
-        "manifest_path": "Catalog/Components/Wallpapers/manifests/Firewatch.bg.json",
-        "author": "Leviathan",
-        "description": "Firewatch.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Firewatch.bg.zip"
-      },
-      "Arcade-Dark.bg": {
-        "preview_path": "Catalog/Components/Wallpapers/previews/Arcade-Dark.bg.png",
-        "manifest_path": "Catalog/Components/Wallpapers/manifests/Arcade-Dark.bg.json",
-        "author": "Leviathan",
-        "description": "Arcade-Dark.bg",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/blob/main/Packages/wallpapers/Arcade-Dark.bg.zip"
-      }
-    },
-    "overlays": {
-      "Limited-Editions.over": {
-        "author": "Shin",
-        "repository": "https://github.com/KrutzOtrem/limited-editions.over",
-        "commit": "d235766403c02b6f0002f75e1b859cbf65d73b50",
-        "preview_path": "Catalog/Components/Overlays/previews/Limited-Editions.over.png",
-        "manifest_path": "Catalog/Components/Overlays/manifests/Limited-Editions.over.json",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/Overlays/Limited-Editions.over.zip",
-        "description": "Pokemon and Mario Limited Editions"
-      }
-    }
+    "wallpapers": {},
+    "overlays": {}
   }
 }
