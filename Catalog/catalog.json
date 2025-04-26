@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-04-26T19:00:14.898306Z",
+  "last_updated": "2025-04-26T19:25:43.249402Z",
   "themes": {
     "Default.theme": {
       "preview_path": "Catalog/.metadata/previews/Default.theme.png",
@@ -122,6 +122,15 @@
         "last_updated": "2025-04-26T19:00:14.856074Z"
       }
     },
-    "overlays": {}
+    "overlays": {
+      "Limited-Editions.over": {
+        "preview_path": "Catalog/.metadata/previews/Limited-Editions.over.png",
+        "manifest_path": "Catalog/.metadata/manifests/Limited-Editions.over.json",
+        "author": "Shin",
+        "description": "Pokemon and Mario Limited Editions",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Limited-Editions.over.zip",
+        "last_updated": "2025-04-26T19:25:43.249393Z"
+      }
+    }
   }
 }
