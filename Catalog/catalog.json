@@ -1,11 +1,15 @@
 {
-  "last_updated": "2025-04-26T00:37:38.559454Z",
+  "last_updated": "2025-04-26T01:25:06.024822Z",
   "themes": {
-     "Pop-Tarts-Clean.theme": {
-      "author": "Shin", 
+    "Pop-Tarts-Clean.theme": {
+      "author": "Shin",
       "repository": "https://github.com/KrutzOtrem/pop-tarts.theme/tree/Clean",
       "commit": "a53b93ef9baef44da11db81576abbdf8296eab9f",
-      "pull_now": "true"
+      "pull_now": "true",
+      "preview_path": "Catalog/Themes/previews/Pop-Tarts-Clean.theme.png",
+      "manifest_path": "Catalog/Themes/manifests/Pop-Tarts-Clean.theme.json",
+      "description": "Pop-Tarts Clean.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip"
     },
     "Deep-Space.theme": {
       "preview_path": "Catalog/Themes/previews/Deep-Space.theme.png",
@@ -97,15 +101,21 @@
         "author": "Leviathan",
         "description": "Arcade-Dark.bg",
         "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/Wallpapers/Arcade-Dark.bg.zip"
+      },
+      "ListWallpapers": {
+        "INVALID": "No manifest.json file found"
       }
     },
     "overlays": {
       "Limited-Editions.over": {
         "author": "Shin",
-        "description": "Limited-Editions.over",
+        "description": "Pokemon and Mario Limited Editions",
         "repository": "https://github.com/KrutzOtrem/limited-editions.over",
         "commit": "d235766403c02b6f0002f75e1b859cbf65d73b50",
-        "pull_now": "true"
+        "pull_now": "true",
+        "preview_path": "Catalog/Components/Overlays/previews/Limited-Editions.over.png",
+        "manifest_path": "Catalog/Components/Overlays/manifests/Limited-Editions.over.json",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/Overlays/Limited-Editions.over.zip"
       }
     }
   }
