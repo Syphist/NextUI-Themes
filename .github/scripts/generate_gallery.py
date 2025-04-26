@@ -252,8 +252,10 @@ def main():
             generate_component_index(component_type, valid_themes)
         else:
             # For other components, get their valid items
-            component_name = component_type.rstrip("s")  # Remove plural 's'
-            component_items = catalog.get("components", {}).get(component_name, {}).values()
+            # Remove this line: component_name = component_type.rstrip("s")  # Remove plural 's'
+
+            # Use the component_type directly (keeping it plural)
+            component_items = catalog.get("components", {}).get(component_type, {}).values()
             valid_items = [item for item in component_items if is_valid_item(item)]
             valid_items = sorted(valid_items, key=lambda x: x.get("last_updated", ""), reverse=True)
             generate_component_index(component_type, valid_items)
