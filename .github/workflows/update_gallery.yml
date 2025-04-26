@@ -4,6 +4,10 @@ on:
   repository_dispatch:
     types: [update-gallery]
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'Catalog/catalog.json'
 
 jobs:
   update-gallery:

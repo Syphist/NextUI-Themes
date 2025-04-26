@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script to process the push.json file with theme and component submissions.
-This is the primary entry point for the theme submission pipeline.
+Updated to use the .metadata folder structure for previews and manifests.
 """
 
 import os
@@ -19,6 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 UPLOAD_DIR = REPO_ROOT / "Upload"
 PACKAGES_DIR = REPO_ROOT / "Packages"
 CATALOG_DIR = REPO_ROOT / "Catalog"
+METADATA_DIR = CATALOG_DIR / ".metadata"
 PUSH_JSON_PATH = UPLOAD_DIR / "push.json"
 
 # Component types and their extensions
@@ -133,14 +134,14 @@ def clean_existing_entry(submission):
         if entry_exists:
             print(f"Found existing entry for {name}, cleaning up...")
 
-            # Remove preview file
+            # Remove preview file from .metadata
             if "preview_path" in entry_info:
                 preview_path = REPO_ROOT / entry_info["preview_path"]
                 if preview_path.exists():
                     os.remove(preview_path)
                     print(f"Removed {preview_path}")
 
-            # Remove manifest file
+            # Remove manifest file from .metadata
             if "manifest_path" in entry_info:
                 manifest_path = REPO_ROOT / entry_info["manifest_path"]
                 if manifest_path.exists():
@@ -314,8 +315,8 @@ def extract_package(package_path, dest_dir):
         print(f"Error extracting package: {e}")
         return False
 
-def copy_preview_and_manifest(src_dir, component_type, name):
-    """Copy preview.png and manifest.json to their respective directories in Catalog"""
+def copy_to_metadata(src_dir, component_type, name):
+    """Copy preview.png and manifest.json to the .metadata directory"""
     try:
         # Get source files
         preview_src = os.path.join(src_dir, "preview.png")
@@ -332,8 +333,8 @@ def copy_preview_and_manifest(src_dir, component_type, name):
         # Determine destination paths
         catalog_type_dir = CATALOG_DIR_MAPPINGS[component_type]
 
-        preview_dest = CATALOG_DIR / catalog_type_dir / "previews" / f"{name}.png"
-        manifest_dest = CATALOG_DIR / catalog_type_dir / "manifests" / f"{name}.json"
+        preview_dest = METADATA_DIR / "previews" / f"{name}.png"
+        manifest_dest = METADATA_DIR / "manifests" / f"{name}.json"
 
         # Create directories if they don't exist
         os.makedirs(os.path.dirname(preview_dest), exist_ok=True)
@@ -343,7 +344,7 @@ def copy_preview_and_manifest(src_dir, component_type, name):
         shutil.copy2(preview_src, preview_dest)
         shutil.copy2(manifest_src, manifest_dest)
 
-        print(f"Copied preview and manifest to {os.path.dirname(preview_dest)}")
+        print(f"Copied preview and manifest to .metadata directory")
 
         # Return relative paths from REPO_ROOT
         preview_rel_path = str(preview_dest.relative_to(REPO_ROOT))
@@ -351,7 +352,7 @@ def copy_preview_and_manifest(src_dir, component_type, name):
 
         return preview_rel_path, manifest_rel_path
     except Exception as e:
-        print(f"Error copying preview and manifest: {e}")
+        print(f"Error copying to metadata: {e}")
         return None, None
 
 def extract_metadata_from_manifest(manifest_path):
@@ -525,8 +526,8 @@ def process_repository_submission(submission):
         if not extract_package(package_path, extract_dir):
             return False
 
-        # Copy preview and manifest
-        preview_path, manifest_path = copy_preview_and_manifest(extract_dir, component_type, name)
+        # Copy to .metadata directory
+        preview_path, manifest_path = copy_to_metadata(extract_dir, component_type, name)
         if not preview_path or not manifest_path:
             return False
 
@@ -573,8 +574,8 @@ def process_zip_submission(submission):
     if not extract_package(package_path, extract_dir):
         return False
 
-    # Copy preview and manifest
-    preview_path, manifest_path = copy_preview_and_manifest(extract_dir, component_type, name)
+    # Copy to .metadata directory
+    preview_path, manifest_path = copy_to_metadata(extract_dir, component_type, name)
     if not preview_path or not manifest_path:
         return False
 
@@ -611,6 +612,8 @@ def main():
     os.makedirs(UPLOAD_DIR, exist_ok=True)
     os.makedirs(PACKAGES_DIR, exist_ok=True)
     os.makedirs(CATALOG_DIR, exist_ok=True)
+    os.makedirs(METADATA_DIR / "previews", exist_ok=True)
+    os.makedirs(METADATA_DIR / "manifests", exist_ok=True)
 
     # Load push.json
     push_data = load_push_json()
