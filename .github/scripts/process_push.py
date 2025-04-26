@@ -44,6 +44,18 @@ CATALOG_COMPONENT_KEYS = {
     "overlay": "overlays"
 }
 
+# Directory name mappings for catalog (capitalized)
+CATALOG_DIR_MAPPINGS = {
+    "theme": "Themes",
+    "wallpaper": "Wallpapers",
+    "icon": "Icons",
+    "accent": "Accents",
+    "led": "LEDs",
+    "font": "Fonts",
+    "overlay": "Overlays"
+}
+
+
 def load_push_json():
     """Load the push.json file"""
     if not PUSH_JSON_PATH.exists():
@@ -450,7 +462,7 @@ def update_catalog(submission, preview_path, manifest_path, package_url):
     if submission["type"] == "overlay" and metadata["systems"]:
         entry["systems"] = metadata["systems"]
 
-        # Update catalog
+    # Update catalog
     name = submission["name"]
     component_type = submission["type"]
 
