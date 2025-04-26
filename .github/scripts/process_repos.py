@@ -48,7 +48,7 @@ def load_catalog():
         return None
 
 def save_catalog(catalog):
-    """Save the catalog.json file"""
+    """Save the catalog.json file preserving order"""
     with open(CATALOG_PATH, 'w') as f:
         json.dump(catalog, f, indent=2)
     print(f"Updated catalog saved to {CATALOG_PATH}")
@@ -229,7 +229,7 @@ def process_repository_entries():
 
     # Process theme repositories
     updated = False
-    for theme_name, theme_info in catalog.get("themes", {}).items():
+    for theme_name, theme_info in list(catalog.get("themes", {}).items()):
         # Check if this is a repository-based entry with pull_now=true
         if ("repository" in theme_info and
                 "commit" in theme_info and
@@ -243,26 +243,36 @@ def process_repository_entries():
                 theme_name, repo_url, commit_hash)
 
             if preview_path and manifest_path and zip_url:
-                # Update catalog entry
-                theme_info["preview_path"] = preview_path
-                theme_info["manifest_path"] = manifest_path
-                theme_info["URL"] = zip_url
+                # Update catalog entry (preserve order by creating a new OrderedDict)
+                new_info = OrderedDict()
 
-                # If description is missing, use the theme name
-                if "description" not in theme_info:
-                    theme_info["description"] = theme_name
+                # Copy all existing fields except pull_now
+                for key, value in theme_info.items():
+                    if key != "pull_now":
+                        new_info[key] = value
 
-                # Set pull_now to false after processing
-                theme_info["pull_now"] = "false"
+                # Add new fields
+                new_info["preview_path"] = preview_path
+                new_info["manifest_path"] = manifest_path
+                if "description" not in new_info:
+                    new_info["description"] = theme_name
+                new_info["URL"] = zip_url
+
+                # Add pull_now at the end and set to false
+                new_info["pull_now"] = "false"
+
+                # Replace the theme info in the catalog
+                catalog["themes"][theme_name] = new_info
 
                 updated = True
+                print(f"Successfully processed theme: {theme_name} and set pull_now to false")
             else:
                 print(f"Failed to process theme repository: {theme_name}")
                 # Don't set pull_now to false if processing failed
 
     # Process component repositories
     for comp_type, components in catalog.get("components", {}).items():
-        for comp_name, comp_info in components.items():
+        for comp_name, comp_info in list(components.items()):
             # Check if this is a repository-based entry with pull_now=true
             if ("repository" in comp_info and
                     "commit" in comp_info and
@@ -276,19 +286,29 @@ def process_repository_entries():
                     comp_name, repo_url, commit_hash)
 
                 if preview_path and manifest_path and zip_url:
-                    # Update catalog entry
-                    comp_info["preview_path"] = preview_path
-                    comp_info["manifest_path"] = manifest_path
-                    comp_info["URL"] = zip_url
+                    # Update catalog entry (preserve order by creating a new OrderedDict)
+                    new_info = OrderedDict()
 
-                    # If description is missing, use the component name
-                    if "description" not in comp_info:
-                        comp_info["description"] = comp_name
+                    # Copy all existing fields except pull_now
+                    for key, value in comp_info.items():
+                        if key != "pull_now":
+                            new_info[key] = value
 
-                    # Set pull_now to false after processing
-                    comp_info["pull_now"] = "false"
+                    # Add new fields
+                    new_info["preview_path"] = preview_path
+                    new_info["manifest_path"] = manifest_path
+                    if "description" not in new_info:
+                        new_info["description"] = comp_name
+                    new_info["URL"] = zip_url
+
+                    # Add pull_now at the end and set to false
+                    new_info["pull_now"] = "false"
+
+                    # Replace the component info in the catalog
+                    catalog["components"][comp_type][comp_name] = new_info
 
                     updated = True
+                    print(f"Successfully processed component: {comp_name} and set pull_now to false")
                 else:
                     print(f"Failed to process component repository: {comp_name}")
                     # Don't set pull_now to false if processing failed
@@ -297,6 +317,7 @@ def process_repository_entries():
     if updated:
         catalog["last_updated"] = datetime.utcnow().isoformat() + "Z"
         save_catalog(catalog)
+        print("Catalog updated with pull_now flags set to false for processed items")
 
 def main():
     """Main function"""

@@ -57,27 +57,41 @@ def load_existing_catalog():
     ])
 
 def merge_theme_info(theme_name, new_info, existing_info=None):
-    """Merge new theme information with existing info, preserving metadata"""
-    if existing_info is None:
-        theme_info = OrderedDict()
-    else:
-        # Start with existing info to preserve all fields
-        theme_info = OrderedDict(existing_info)
+    """Merge new theme information with existing info, preserving metadata and ordering fields"""
+    # Initialize a new OrderedDict for the result
+    theme_info = OrderedDict()
 
-    # Update with new information
+    # Store pull_now value to add at the end
+    pull_now_value = None
+    has_pull_now = False
+
+    # Process existing info first if available
+    if existing_info is not None:
+        # Check if pull_now exists and capture its value
+        if "pull_now" in existing_info:
+            has_pull_now = True
+            pull_now_value = existing_info["pull_now"]
+
+        # Copy all fields except pull_now
+        for key, value in existing_info.items():
+            if key != "pull_now":
+                theme_info[key] = value
+
+    # Update with new information, skipping pull_now
     for key, value in new_info.items():
-        theme_info[key] = value
+        if key != "pull_now":
+            theme_info[key] = value
 
-    # Always preserve repository metadata if it exists
-    if "repository" in existing_info and "repository" not in new_info:
-        theme_info["repository"] = existing_info["repository"]
-    if "commit" in existing_info and "commit" not in new_info:
-        theme_info["commit"] = existing_info["commit"]
+    # Always preserve repository metadata if it exists in existing_info but not in new_info
+    if existing_info is not None:
+        if "repository" in existing_info and "repository" not in new_info:
+            theme_info["repository"] = existing_info["repository"]
+        if "commit" in existing_info and "commit" not in new_info:
+            theme_info["commit"] = existing_info["commit"]
 
-    # If pull_now is set to true, DO NOT change it - let process_repos.py handle it
-    # If pull_now is not present, don't add it (direct uploads)
-    if "pull_now" in existing_info and existing_info["pull_now"] == "true":
-        theme_info["pull_now"] = "true"
+    # Add pull_now at the end if it existed
+    if has_pull_now:
+        theme_info["pull_now"] = pull_now_value
 
     return theme_info
 
@@ -163,26 +177,41 @@ def extract_theme_info(theme_path, existing_info=None):
     return merge_theme_info(theme_name, new_info, existing_info)
 
 def merge_component_info(comp_name, new_info, existing_info=None):
-    """Merge new component information with existing info, preserving metadata"""
-    if existing_info is None:
-        comp_info = OrderedDict()
-    else:
-        # Start with existing info to preserve all fields
-        comp_info = OrderedDict(existing_info)
+    """Merge new component information with existing info, preserving metadata and ordering fields"""
+    # Initialize a new OrderedDict for the result
+    comp_info = OrderedDict()
 
-        # Always preserve repository metadata if it exists
+    # Store pull_now value to add at the end
+    pull_now_value = None
+    has_pull_now = False
+
+    # Process existing info first if available
+    if existing_info is not None:
+        # Check if pull_now exists and capture its value
+        if "pull_now" in existing_info:
+            has_pull_now = True
+            pull_now_value = existing_info["pull_now"]
+
+        # Copy all fields except pull_now
+        for key, value in existing_info.items():
+            if key != "pull_now":
+                comp_info[key] = value
+
+    # Update with new information, skipping pull_now
+    for key, value in new_info.items():
+        if key != "pull_now":
+            comp_info[key] = value
+
+    # Always preserve repository metadata if it exists in existing_info but not in new_info
+    if existing_info is not None:
         if "repository" in existing_info and "repository" not in new_info:
             comp_info["repository"] = existing_info["repository"]
         if "commit" in existing_info and "commit" not in new_info:
             comp_info["commit"] = existing_info["commit"]
 
-        # If pull_now is set to true, DO NOT change it - let process_repos.py handle it
-        if "pull_now" in existing_info and existing_info["pull_now"] == "true":
-            comp_info["pull_now"] = "true"
-
-    # Update with new information
-    for key, value in new_info.items():
-        comp_info[key] = value
+    # Add pull_now at the end if it existed
+    if has_pull_now:
+        comp_info["pull_now"] = pull_now_value
 
     return comp_info
 
