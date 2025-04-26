@@ -51,18 +51,34 @@ def save_catalog(catalog):
     print(f"Updated catalog saved to {CATALOG_PATH}")
 
 def clone_repository(repo_url, commit_hash, target_dir):
-    """Clone a repository at a specific commit"""
+    """Clone a repository at a specific commit, with support for branch specifications"""
+    # Parse the repository URL to handle branch specifications
+    branch = None
+    base_url = repo_url
+
+    # Handle GitHub branch specifications in URL (e.g., /tree/Branch)
+    if '/tree/' in repo_url:
+        parts = repo_url.split('/tree/', 1)
+        base_url = parts[0]
+        branch = parts[1]
+        print(f"Detected branch specification: {branch}")
+
     os.makedirs(os.path.dirname(target_dir), exist_ok=True)
 
-    # Clone repository
-    print(f"Cloning {repo_url} at commit {commit_hash}")
-    subprocess.run(['git', 'clone', '--no-checkout', repo_url, target_dir], check=True)
+    # Clone repository using the base URL (without branch specification)
+    print(f"Cloning {base_url} at commit {commit_hash}")
+    subprocess.run(['git', 'clone', '--no-checkout', base_url, target_dir], check=True)
 
     # Change to repository directory
     cwd = os.getcwd()
     os.chdir(target_dir)
 
     try:
+        # If a branch was specified, fetch it explicitly before checkout
+        if branch:
+            print(f"Fetching branch: {branch}")
+            subprocess.run(['git', 'fetch', 'origin', branch], check=True)
+
         # Checkout specific commit
         subprocess.run(['git', 'checkout', commit_hash], check=True)
 
