@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-04-26T01:47:26.601636Z",
+  "last_updated": "2025-04-26T01:51:16.724571Z",
   "themes": {
     "Pop-Tarts-Clean.theme": {
       "author": "Shin",
@@ -8,6 +8,7 @@
       "preview_path": "Catalog/Themes/previews/Pop-Tarts-Clean.theme.png",
       "manifest_path": "Catalog/Themes/manifests/Pop-Tarts-Clean.theme.json",
       "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip",
+      "description": "Pop-Tarts Clean.theme",
       "pull_now": "true"
     },
     "Deep-Space.theme": {
