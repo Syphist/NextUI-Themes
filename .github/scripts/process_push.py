@@ -33,15 +33,15 @@ COMPONENT_TYPES = {
     "overlay": ".over"
 }
 
-# Directory name mappings for catalog (capitalized)
-CATALOG_DIR_MAPPINGS = {
-    "theme": "Themes",
-    "wallpaper": "Wallpapers",
-    "icon": "Icons",
-    "accent": "Accents",
-    "led": "LEDs",
-    "font": "Fonts",
-    "overlay": "Overlays"
+# Mapping for catalog.json component keys
+CATALOG_COMPONENT_KEYS = {
+    "theme": "themes",  # Not actually used in components section
+    "wallpaper": "wallpapers",
+    "icon": "icons",
+    "accent": "accents",
+    "led": "leds",
+    "font": "fonts",
+    "overlay": "overlays"
 }
 
 def load_push_json():
@@ -450,7 +450,7 @@ def update_catalog(submission, preview_path, manifest_path, package_url):
     if submission["type"] == "overlay" and metadata["systems"]:
         entry["systems"] = metadata["systems"]
 
-    # Update catalog
+        # Update catalog
     name = submission["name"]
     component_type = submission["type"]
 
@@ -469,7 +469,8 @@ def update_catalog(submission, preview_path, manifest_path, package_url):
         catalog["themes"] = new_themes
     else:
         # Add to components section at the beginning
-        comp_type_key = COMPONENT_TYPES[component_type][1:]  # Remove the dot
+        # Use the consistent mapping instead of deriving from file extension
+        comp_type_key = CATALOG_COMPONENT_KEYS[component_type]
         components = catalog.get("components", {}).get(comp_type_key, {})
 
         # Create a new dictionary with the new entry first
