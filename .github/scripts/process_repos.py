@@ -11,6 +11,9 @@ import zipfile
 import subprocess
 from pathlib import Path
 from datetime import datetime
+from collections import OrderedDict
+# Import the halt utilities
+from halt_utils import add_to_halt_file, is_item_halted
 
 # Base paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -31,14 +34,14 @@ COMPONENT_DIRS = {
 }
 
 def load_catalog():
-    """Load the catalog.json file"""
+    """Load the catalog.json file with ordering preserved"""
     if not CATALOG_PATH.exists():
         print(f"Catalog file not found: {CATALOG_PATH}")
         return None
 
     try:
         with open(CATALOG_PATH, 'r') as f:
-            catalog = json.load(f)
+            catalog = json.load(f, object_pairs_hook=OrderedDict)
         return catalog
     except Exception as e:
         print(f"Error loading catalog: {e}")
@@ -166,6 +169,9 @@ def process_theme_repository(name, repo_url, commit_hash):
         zip_path = UPLOADS_THEMES_DIR / f"{name}.zip"
         create_zip_file(temp_dir, zip_path)
 
+        # Add to halt file to prevent re-processing by process_zips.py
+        add_to_halt_file(name, is_theme=True)
+
         # Generate URL for the ZIP file
         zip_url = f"https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/{name}.zip"
 
@@ -197,7 +203,7 @@ def process_component_repository(name, repo_url, commit_hash):
 
         if preview_path is None or manifest_path is None:
             print(f"Warning: Could not extract preview or manifest for {name}")
-            return None, None
+            return None, None, None
 
         # Create uploads directory if it doesn't exist
         uploads_dir = UPLOADS_COMPONENTS_DIR / component_type
@@ -207,13 +213,16 @@ def process_component_repository(name, repo_url, commit_hash):
         zip_path = uploads_dir / f"{name}.zip"
         create_zip_file(temp_dir, zip_path)
 
+        # Add to halt file to prevent re-processing by process_zips.py
+        add_to_halt_file(name, is_theme=False)
+
         # Generate URL for the ZIP file
         zip_url = f"https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/{component_type}/{name}.zip"
 
         return preview_path, manifest_path, zip_url
 
 def process_repository_entries():
-    """Process all repository entries in the catalog"""
+    """Process all repository entries in the catalog that have pull_now=true"""
     catalog = load_catalog()
     if catalog is None:
         return
@@ -221,58 +230,68 @@ def process_repository_entries():
     # Process theme repositories
     updated = False
     for theme_name, theme_info in catalog.get("themes", {}).items():
-        # Check if this is a repository-based entry
-        if "repository" in theme_info and "commit" in theme_info:
+        # Check if this is a repository-based entry with pull_now=true
+        if ("repository" in theme_info and
+                "commit" in theme_info and
+                theme_info.get("pull_now") == "true"):
+
             repo_url = theme_info["repository"]
             commit_hash = theme_info["commit"]
 
-            # If entry is incomplete, process the repository
-            if ("preview_path" not in theme_info or
-                    "manifest_path" not in theme_info or
-                    "URL" not in theme_info):
+            # Process the repository
+            preview_path, manifest_path, zip_url = process_theme_repository(
+                theme_name, repo_url, commit_hash)
 
-                preview_path, manifest_path, zip_url = process_theme_repository(
-                    theme_name, repo_url, commit_hash)
+            if preview_path and manifest_path and zip_url:
+                # Update catalog entry
+                theme_info["preview_path"] = preview_path
+                theme_info["manifest_path"] = manifest_path
+                theme_info["URL"] = zip_url
 
-                if preview_path and manifest_path and zip_url:
-                    # Update catalog entry
-                    theme_info["preview_path"] = preview_path
-                    theme_info["manifest_path"] = manifest_path
-                    theme_info["URL"] = zip_url
+                # If description is missing, use the theme name
+                if "description" not in theme_info:
+                    theme_info["description"] = theme_name
 
-                    # If description is missing, use the theme name
-                    if "description" not in theme_info:
-                        theme_info["description"] = theme_name
+                # Set pull_now to false after processing
+                theme_info["pull_now"] = "false"
 
-                    updated = True
+                updated = True
+            else:
+                print(f"Failed to process theme repository: {theme_name}")
+                # Don't set pull_now to false if processing failed
 
     # Process component repositories
     for comp_type, components in catalog.get("components", {}).items():
         for comp_name, comp_info in components.items():
-            # Check if this is a repository-based entry
-            if "repository" in comp_info and "commit" in comp_info:
+            # Check if this is a repository-based entry with pull_now=true
+            if ("repository" in comp_info and
+                    "commit" in comp_info and
+                    comp_info.get("pull_now") == "true"):
+
                 repo_url = comp_info["repository"]
                 commit_hash = comp_info["commit"]
 
-                # If entry is incomplete, process the repository
-                if ("preview_path" not in comp_info or
-                        "manifest_path" not in comp_info or
-                        "URL" not in comp_info):
+                # Process the repository
+                preview_path, manifest_path, zip_url = process_component_repository(
+                    comp_name, repo_url, commit_hash)
 
-                    preview_path, manifest_path, zip_url = process_component_repository(
-                        comp_name, repo_url, commit_hash)
+                if preview_path and manifest_path and zip_url:
+                    # Update catalog entry
+                    comp_info["preview_path"] = preview_path
+                    comp_info["manifest_path"] = manifest_path
+                    comp_info["URL"] = zip_url
 
-                    if preview_path and manifest_path and zip_url:
-                        # Update catalog entry
-                        comp_info["preview_path"] = preview_path
-                        comp_info["manifest_path"] = manifest_path
-                        comp_info["URL"] = zip_url
+                    # If description is missing, use the component name
+                    if "description" not in comp_info:
+                        comp_info["description"] = comp_name
 
-                        # If description is missing, use the component name
-                        if "description" not in comp_info:
-                            comp_info["description"] = comp_name
+                    # Set pull_now to false after processing
+                    comp_info["pull_now"] = "false"
 
-                        updated = True
+                    updated = True
+                else:
+                    print(f"Failed to process component repository: {comp_name}")
+                    # Don't set pull_now to false if processing failed
 
     # Update last_updated timestamp and save the catalog
     if updated:

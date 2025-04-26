@@ -9,6 +9,8 @@ import zipfile
 import shutil
 import glob
 from pathlib import Path
+# Import the halt utilities
+from halt_utils import is_item_halted
 
 # Base paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -132,10 +134,15 @@ def copy_preview_and_manifest(src_path, component_type=None, is_theme=False):
 
 def process_theme_zip(zip_path):
     """Process a theme zip file"""
-    print(f"Processing theme zip: {zip_path}")
-
     # Extract theme name from zip filename
     theme_name = os.path.basename(zip_path).replace('.zip', '')
+
+    # Check if this theme is in the halt file - if so, skip processing
+    if is_item_halted(theme_name, is_theme=True):
+        print(f"Skipping {theme_name} as it is marked as halted (from repository processing)")
+        return
+
+    print(f"Processing theme zip: {zip_path}")
 
     # Destination path
     dest_path = THEMES_DIR / theme_name
@@ -177,10 +184,15 @@ def process_theme_zip(zip_path):
 
 def process_component_zip(zip_path, component_type):
     """Process a component zip file"""
-    print(f"Processing {component_type} component zip: {zip_path}")
-
     # Extract component name from zip filename
     component_name = os.path.basename(zip_path).replace('.zip', '')
+
+    # Check if this component is in the halt file - if so, skip processing
+    if is_item_halted(component_name, is_theme=False):
+        print(f"Skipping {component_name} as it is marked as halted (from repository processing)")
+        return
+
+    print(f"Processing {component_type} component zip: {zip_path}")
 
     # Get component directory
     component_dir = COMPONENT_DIRS.get(component_type)

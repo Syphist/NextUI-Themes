@@ -8,6 +8,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 import traceback
+from collections import OrderedDict
 
 # Base paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -30,43 +31,64 @@ COMPONENT_TYPES = {
 }
 
 def load_existing_catalog():
-    """Load the existing catalog.json file if it exists"""
+    """Load the existing catalog.json file if it exists, preserving order"""
     catalog_path = CATALOG_DIR / "catalog.json"
     if os.path.exists(catalog_path):
         try:
             with open(catalog_path, 'r') as f:
-                return json.load(f)
+                return json.load(f, object_pairs_hook=OrderedDict)
         except json.JSONDecodeError:
             print(f"Warning: Existing catalog.json is invalid, creating a new one")
         except Exception as e:
             print(f"Error reading existing catalog: {str(e)}")
 
     # Return default structure if no catalog exists or there was an error
-    return {
-        "last_updated": datetime.utcnow().isoformat() + "Z",
-        "themes": {},
-        "components": {
-            "accents": {},
-            "leds": {},
-            "icons": {},
-            "fonts": {},
-            "wallpapers": {},
-            "overlays": {}
-        }
-    }
+    return OrderedDict([
+        ("last_updated", datetime.utcnow().isoformat() + "Z"),
+        ("themes", OrderedDict()),
+        ("components", OrderedDict([
+            ("accents", OrderedDict()),
+            ("leds", OrderedDict()),
+            ("icons", OrderedDict()),
+            ("fonts", OrderedDict()),
+            ("wallpapers", OrderedDict()),
+            ("overlays", OrderedDict())
+        ]))
+    ])
+
+def merge_theme_info(theme_name, new_info, existing_info=None):
+    """Merge new theme information with existing info, preserving metadata"""
+    if existing_info is None:
+        theme_info = OrderedDict()
+    else:
+        # Start with existing info to preserve all fields
+        theme_info = OrderedDict(existing_info)
+
+    # Update with new information
+    for key, value in new_info.items():
+        theme_info[key] = value
+
+    # Always preserve repository metadata if it exists
+    if "repository" in existing_info and "repository" not in new_info:
+        theme_info["repository"] = existing_info["repository"]
+    if "commit" in existing_info and "commit" not in new_info:
+        theme_info["commit"] = existing_info["commit"]
+
+    # If pull_now is set to true, DO NOT change it - let process_repos.py handle it
+    # If pull_now is not present, don't add it (direct uploads)
+    if "pull_now" in existing_info and existing_info["pull_now"] == "true":
+        theme_info["pull_now"] = "true"
+
+    return theme_info
 
 def extract_theme_info(theme_path, existing_info=None):
     """Extract theme information from the theme directory and preview/manifest"""
     theme_name = os.path.basename(theme_path)
 
-    # Start with existing info if available
-    theme_info = {}
-    if existing_info:
-        theme_info = existing_info.copy()
-        # If this theme was previously marked as invalid but has been fixed,
-        # we'll want to remove the INVALID flag
-        if "INVALID" in theme_info:
-            del theme_info["INVALID"]
+    # Start with minimal info to extract
+    new_info = OrderedDict()
+    if "INVALID" in new_info:
+        del new_info["INVALID"]
 
     # Check for manifest in the theme directory
     theme_manifest_path = os.path.join(theme_path, "manifest.json")
@@ -85,9 +107,8 @@ def extract_theme_info(theme_path, existing_info=None):
         manifest_path = manifests_dir_path
     else:
         print(f"Warning: No manifest found for theme {theme_name}")
-        if existing_info:
-            theme_info["INVALID"] = "No manifest.json file found"
-        return theme_info if existing_info else None
+        new_info["INVALID"] = "No manifest.json file found"
+        return merge_theme_info(theme_name, new_info, existing_info)
 
     # Determine which preview to use
     if os.path.exists(theme_preview_path):
@@ -96,9 +117,8 @@ def extract_theme_info(theme_path, existing_info=None):
         preview_path = previews_dir_path
     else:
         print(f"Warning: No preview found for theme {theme_name}")
-        if existing_info:
-            theme_info["INVALID"] = "No preview.png file found"
-        return theme_info if existing_info else None
+        new_info["INVALID"] = "No preview.png file found"
+        return merge_theme_info(theme_name, new_info, existing_info)
 
     # Read manifest file
     try:
@@ -107,15 +127,13 @@ def extract_theme_info(theme_path, existing_info=None):
     except json.JSONDecodeError as e:
         error_msg = f"Invalid JSON in manifest: {str(e)}"
         print(f"Error: {error_msg}")
-        if existing_info:
-            theme_info["INVALID"] = error_msg
-        return theme_info if existing_info else None
+        new_info["INVALID"] = error_msg
+        return merge_theme_info(theme_name, new_info, existing_info)
     except Exception as e:
         error_msg = f"Error reading manifest: {str(e)}"
         print(f"Error: {error_msg}")
-        if existing_info:
-            theme_info["INVALID"] = error_msg
-        return theme_info if existing_info else None
+        new_info["INVALID"] = error_msg
+        return merge_theme_info(theme_name, new_info, existing_info)
 
     # Extract author and description
     author = manifest_data.get("theme_info", {}).get("author", "Unknown")
@@ -133,7 +151,7 @@ def extract_theme_info(theme_path, existing_info=None):
     url = f"{GITHUB_RAW_URL}/Themes/{zip_filename}"
 
     # Update theme info
-    theme_info.update({
+    new_info.update({
         "preview_path": preview_rel_path,
         "manifest_path": manifest_rel_path,
         "author": author,
@@ -141,85 +159,42 @@ def extract_theme_info(theme_path, existing_info=None):
         "URL": url  # Use "URL" property as requested
     })
 
-    return theme_info
+    # Merge with existing info to preserve metadata
+    return merge_theme_info(theme_name, new_info, existing_info)
 
-def extract_wallpaper_content(component_path):
-    """Extract information about wallpaper content types"""
-    content_info = {
-        "has_system_wallpapers": False,
-        "has_list_wallpapers": False,
-        "has_collection_wallpapers": False
-    }
+def merge_component_info(comp_name, new_info, existing_info=None):
+    """Merge new component information with existing info, preserving metadata"""
+    if existing_info is None:
+        comp_info = OrderedDict()
+    else:
+        # Start with existing info to preserve all fields
+        comp_info = OrderedDict(existing_info)
 
-    # Check for SystemWallpapers directory
-    system_wallpapers_path = os.path.join(component_path, "SystemWallpapers")
-    if os.path.exists(system_wallpapers_path):
-        for file in os.listdir(system_wallpapers_path):
-            if file.lower().endswith('.png') and not file.startswith('.'):
-                content_info["has_system_wallpapers"] = True
-                break
+    # Update with new information
+    for key, value in new_info.items():
+        comp_info[key] = value
 
-    # Check for ListWallpapers directory
-    list_wallpapers_path = os.path.join(component_path, "ListWallpapers")
-    if os.path.exists(list_wallpapers_path):
-        for file in os.listdir(list_wallpapers_path):
-            if file.lower().endswith('.png') and not file.startswith('.'):
-                content_info["has_list_wallpapers"] = True
-                break
+    # Always preserve repository metadata if it exists
+    if "repository" in existing_info and "repository" not in new_info:
+        comp_info["repository"] = existing_info["repository"]
+    if "commit" in existing_info and "commit" not in new_info:
+        comp_info["commit"] = existing_info["commit"]
 
-    # Check for CollectionWallpapers directory
-    collection_wallpapers_path = os.path.join(component_path, "CollectionWallpapers")
-    if os.path.exists(collection_wallpapers_path):
-        for file in os.listdir(collection_wallpapers_path):
-            if file.lower().endswith('.png') and not file.startswith('.'):
-                content_info["has_collection_wallpapers"] = True
-                break
+    # If pull_now is set to true, DO NOT change it - let process_repos.py handle it
+    # If pull_now is not present, don't add it (direct uploads)
+    if "pull_now" in existing_info and existing_info["pull_now"] == "true":
+        comp_info["pull_now"] = "true"
 
-    return content_info
-
-def extract_overlay_systems(component_path):
-    """Extract supported system tags from an overlay component's directory structure"""
-    systems_path = os.path.join(component_path, "Systems")
-    supported_systems = []
-
-    # Check if Systems directory exists
-    if os.path.exists(systems_path):
-        # List all directories in Systems folder, each is a system tag
-        try:
-            for entry in os.listdir(systems_path):
-                entry_path = os.path.join(systems_path, entry)
-                if os.path.isdir(entry_path) and not entry.startswith('.'):
-                    # Make sure directory actually contains overlay files
-                    has_overlays = False
-                    for file in os.listdir(entry_path):
-                        if file.lower().endswith('.png') and not file.startswith('.'):
-                            has_overlays = True
-                            break
-
-                    if has_overlays:
-                        supported_systems.append(entry)
-        except Exception as e:
-            print(f"Error scanning overlay systems: {str(e)}")
-
-    # If we found systems, sort them alphabetically
-    if supported_systems:
-        supported_systems.sort()
-        print(f"Detected systems for {os.path.basename(component_path)}: {supported_systems}")
-
-    return supported_systems
+    return comp_info
 
 def extract_component_info(component_path, component_type, existing_info=None):
     """Extract component information from the component directory and preview/manifest"""
     component_name = os.path.basename(component_path)
 
-    # Start with existing info if available
-    component_info = {}
-    if existing_info:
-        component_info = existing_info.copy()
-        # If this component was previously marked as invalid but has been fixed,
-        # we'll want to remove the INVALID flag
-        if "INVALID" in component_info:
-            del component_info["INVALID"]
+    # Start with minimal info to extract
+    new_info = OrderedDict()
+    if "INVALID" in new_info:
+        del new_info["INVALID"]
 
     # Check for manifest in the component directory
     comp_manifest_path = os.path.join(component_path, "manifest.json")
@@ -238,9 +213,8 @@ def extract_component_info(component_path, component_type, existing_info=None):
         manifest_path = manifests_dir_path
     else:
         print(f"Warning: No manifest found for component {component_name} of type {component_type}")
-        if existing_info:
-            component_info["INVALID"] = "No manifest.json file found"
-        return component_info if existing_info else None
+        new_info["INVALID"] = "No manifest.json file found"
+        return merge_component_info(component_name, new_info, existing_info)
 
     # Determine which preview to use
     if os.path.exists(comp_preview_path):
@@ -249,9 +223,8 @@ def extract_component_info(component_path, component_type, existing_info=None):
         preview_path = previews_dir_path
     else:
         print(f"Warning: No preview found for component {component_name} of type {component_type}")
-        if existing_info:
-            component_info["INVALID"] = "No preview.png file found"
-        return component_info if existing_info else None
+        new_info["INVALID"] = "No preview.png file found"
+        return merge_component_info(component_name, new_info, existing_info)
 
     # Read manifest file
     try:
@@ -260,15 +233,13 @@ def extract_component_info(component_path, component_type, existing_info=None):
     except json.JSONDecodeError as e:
         error_msg = f"Invalid JSON in manifest: {str(e)}"
         print(f"Error: {error_msg}")
-        if existing_info:
-            component_info["INVALID"] = error_msg
-        return component_info if existing_info else None
+        new_info["INVALID"] = error_msg
+        return merge_component_info(component_name, new_info, existing_info)
     except Exception as e:
         error_msg = f"Error reading manifest: {str(e)}"
         print(f"Error: {error_msg}")
-        if existing_info:
-            component_info["INVALID"] = error_msg
-        return component_info if existing_info else None
+        new_info["INVALID"] = error_msg
+        return merge_component_info(component_name, new_info, existing_info)
 
     # Extract author and description
     author = manifest_data.get("component_info", {}).get("author", "Unknown")
@@ -288,9 +259,8 @@ def extract_component_info(component_path, component_type, existing_info=None):
     # Extract supported systems for overlays
     systems = None
     if component_type == "Overlays":
-        systems = extract_overlay_systems(component_path)
-        # Also try to get systems from manifest if available
-        if not systems and "content" in manifest_data and "systems" in manifest_data["content"]:
+        # Try to get systems from manifest if available
+        if "content" in manifest_data and "systems" in manifest_data["content"]:
             try:
                 systems = manifest_data["content"]["systems"]
                 if isinstance(systems, list):
@@ -300,12 +270,12 @@ def extract_component_info(component_path, component_type, existing_info=None):
 
     # Add this to extract_component_info when processing Wallpapers
     if component_type == "Wallpapers":
-        wallpaper_content = extract_wallpaper_content(component_path)
-        if wallpaper_content["has_list_wallpapers"]:
-            component_info["has_list_wallpapers"] = True
+        # Only set this if we detect it - don't override existing info
+        if os.path.exists(os.path.join(component_path, "ListWallpapers")):
+            new_info["has_list_wallpapers"] = True
 
     # Update component info
-    component_info.update({
+    new_info.update({
         "preview_path": preview_rel_path,
         "manifest_path": manifest_rel_path,
         "author": author,
@@ -315,9 +285,10 @@ def extract_component_info(component_path, component_type, existing_info=None):
 
     # Add systems for overlays
     if systems:
-        component_info["systems"] = systems
+        new_info["systems"] = systems
 
-    return component_info
+    # Merge with existing info to preserve metadata
+    return merge_component_info(component_name, new_info, existing_info)
 
 def main():
     """Main function to build the catalog"""
@@ -346,10 +317,11 @@ def main():
         # Now handle repository-based themes that might not be on filesystem
         for theme_name, theme_info in list(catalog["themes"].items()):
             if theme_name not in processed_themes and "repository" in theme_info and "commit" in theme_info:
-                # Preserve repository-based themes
+                # Preserve repository-based themes - DO NOT REMOVE THEM
                 print(f"Preserving repository-based theme: {theme_name}")
                 processed_themes.add(theme_name)
-            elif theme_name not in processed_themes and "INVALID" not in theme_info:
+            # Only remove if not repository-based AND not on filesystem AND not marked invalid
+            elif theme_name not in processed_themes and "repository" not in theme_info and "INVALID" not in theme_info:
                 # Theme was removed from filesystem and isn't repository-based
                 print(f"Removing theme that no longer exists: {theme_name}")
                 del catalog["themes"][theme_name]
@@ -379,28 +351,11 @@ def main():
             # Now handle repository-based components that might not be on filesystem
             for comp_name, comp_info in list(catalog["components"][comp_type_lower].items()):
                 if comp_name not in processed_components and "repository" in comp_info and "commit" in comp_info:
-                    # Special handling for repository-based overlays
-                    if comp_type_lower == "overlays":
-                        manifest_path = os.path.join(COMPONENTS_DIR, comp_type, "manifests", f"{comp_name}.json")
-                        if os.path.exists(manifest_path):
-                            try:
-                                with open(manifest_path, 'r') as f:
-                                    manifest_data = json.load(f)
-
-                                # Extract systems from manifest content
-                                if "content" in manifest_data and "systems" in manifest_data["content"]:
-                                    systems = manifest_data["content"]["systems"]
-                                    if isinstance(systems, list) and systems:
-                                        systems.sort()  # Sort alphabetically
-                                        comp_info["systems"] = systems
-                                        print(f"Added systems for repository-based overlay: {comp_name}")
-                            except Exception as e:
-                                print(f"Error processing manifest for {comp_name}: {str(e)}")
-
-                    # Preserve repository-based components
+                    # Preserve repository-based components - DO NOT REMOVE THEM
                     print(f"Preserving repository-based component: {comp_name}")
                     processed_components.add(comp_name)
-                elif comp_name not in processed_components and "INVALID" not in comp_info:
+                # Only remove if not repository-based AND not on filesystem AND not marked invalid
+                elif comp_name not in processed_components and "repository" not in comp_info and "INVALID" not in comp_info:
                     # Component was removed from filesystem and isn't repository-based
                     print(f"Removing component that no longer exists: {comp_name}")
                     del catalog["components"][comp_type_lower][comp_name]
