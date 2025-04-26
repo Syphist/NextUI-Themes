@@ -48,10 +48,42 @@ def load_catalog():
         return None
 
 def save_catalog(catalog):
-    """Save the catalog.json file preserving order"""
-    with open(CATALOG_PATH, 'w') as f:
+    """Save the catalog.json file with guaranteed write"""
+    # First create a backup of the existing catalog
+    if os.path.exists(CATALOG_PATH):
+        backup_path = str(CATALOG_PATH) + ".bak"
+        shutil.copy2(CATALOG_PATH, backup_path)
+        print(f"Created backup of catalog at {backup_path}")
+
+    # Write to a temporary file first
+    temp_path = str(CATALOG_PATH) + ".tmp"
+    with open(temp_path, 'w') as f:
         json.dump(catalog, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())  # Force write to disk
+
+    # Now rename the temporary file to the actual catalog
+    os.replace(temp_path, CATALOG_PATH)
     print(f"Updated catalog saved to {CATALOG_PATH}")
+
+    # Verify the saved catalog contains the expected changes
+    try:
+        with open(CATALOG_PATH, 'r') as f:
+            saved_catalog = json.load(f, object_pairs_hook=OrderedDict)
+
+        # Debug check - scan for entries with pull_now=true
+        for theme_name, theme_info in saved_catalog.get("themes", {}).items():
+            if theme_info.get("pull_now") == "true":
+                print(f"Note: {theme_name} has pull_now=true in saved catalog")
+
+        return True
+    except Exception as e:
+        print(f"Error verifying saved catalog: {str(e)}")
+        # Try to restore from backup
+        if os.path.exists(backup_path):
+            shutil.copy2(backup_path, CATALOG_PATH)
+            print(f"Restored catalog from backup")
+        return False
 
 def clone_repository(repo_url, commit_hash, target_dir):
     """Clone a repository at a specific commit, with support for branch specifications"""
@@ -235,6 +267,7 @@ def process_repository_entries():
                 "commit" in theme_info and
                 theme_info.get("pull_now") == "true"):
 
+            print(f"Found theme with pull_now=true: {theme_name}")
             repo_url = theme_info["repository"]
             commit_hash = theme_info["commit"]
 
@@ -243,7 +276,7 @@ def process_repository_entries():
                 theme_name, repo_url, commit_hash)
 
             if preview_path and manifest_path and zip_url:
-                # Update catalog entry (preserve order by creating a new OrderedDict)
+                # Create a completely new OrderedDict
                 new_info = OrderedDict()
 
                 # Copy all existing fields except pull_now
@@ -258,26 +291,29 @@ def process_repository_entries():
                     new_info["description"] = theme_name
                 new_info["URL"] = zip_url
 
-                # Add pull_now at the end and set to false
+                # Add pull_now at the end and EXPLICITLY set to false as a string
                 new_info["pull_now"] = "false"
 
                 # Replace the theme info in the catalog
                 catalog["themes"][theme_name] = new_info
 
+                # Debug output
+                print(f"UPDATED {theme_name} pull_now to 'false'")
+
                 updated = True
-                print(f"Successfully processed theme: {theme_name} and set pull_now to false")
             else:
                 print(f"Failed to process theme repository: {theme_name}")
                 # Don't set pull_now to false if processing failed
 
     # Process component repositories
-    for comp_type, components in catalog.get("components", {}).items():
+    for comp_type, components in list(catalog.get("components", {}).items()):
         for comp_name, comp_info in list(components.items()):
             # Check if this is a repository-based entry with pull_now=true
             if ("repository" in comp_info and
                     "commit" in comp_info and
                     comp_info.get("pull_now") == "true"):
 
+                print(f"Found component with pull_now=true: {comp_name}")
                 repo_url = comp_info["repository"]
                 commit_hash = comp_info["commit"]
 
@@ -286,7 +322,7 @@ def process_repository_entries():
                     comp_name, repo_url, commit_hash)
 
                 if preview_path and manifest_path and zip_url:
-                    # Update catalog entry (preserve order by creating a new OrderedDict)
+                    # Create a completely new OrderedDict
                     new_info = OrderedDict()
 
                     # Copy all existing fields except pull_now
@@ -301,14 +337,16 @@ def process_repository_entries():
                         new_info["description"] = comp_name
                     new_info["URL"] = zip_url
 
-                    # Add pull_now at the end and set to false
+                    # Add pull_now at the end and EXPLICITLY set to false as a string
                     new_info["pull_now"] = "false"
 
                     # Replace the component info in the catalog
                     catalog["components"][comp_type][comp_name] = new_info
 
+                    # Debug output
+                    print(f"UPDATED {comp_name} pull_now to 'false'")
+
                     updated = True
-                    print(f"Successfully processed component: {comp_name} and set pull_now to false")
                 else:
                     print(f"Failed to process component repository: {comp_name}")
                     # Don't set pull_now to false if processing failed
@@ -316,14 +354,83 @@ def process_repository_entries():
     # Update last_updated timestamp and save the catalog
     if updated:
         catalog["last_updated"] = datetime.utcnow().isoformat() + "Z"
-        save_catalog(catalog)
-        print("Catalog updated with pull_now flags set to false for processed items")
+
+        # FORCE SAVE - explicitly write to file to prevent race conditions
+        with open(CATALOG_PATH, 'w') as f:
+            json.dump(catalog, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())  # Force write to disk
+
+        print("Catalog saved with pull_now flags set to false for processed items")
+
+        # Debug - verify the catalog was updated correctly
+        verify_catalog = load_catalog()
+        for theme_name, theme_info in verify_catalog.get("themes", {}).items():
+            if theme_info.get("pull_now") == "true" and "repository" in theme_info:
+                print(f"WARNING: {theme_name} still has pull_now=true after save!")
+
+    return updated  # Return whether updates were made
 
 def main():
-    """Main function"""
+    """Main function with safety check against infinite processing"""
     print("Starting repository-based theme and component processing")
-    process_repository_entries()
+
+    # Load catalog to check for pull_now=true entries
+    catalog = load_catalog()
+    if catalog is None:
+        print("Failed to load catalog, aborting")
+        return
+
+    # Count how many entries have pull_now=true
+    pull_now_count = 0
+    for theme_name, theme_info in catalog.get("themes", {}).items():
+        if theme_info.get("pull_now") == "true":
+            pull_now_count += 1
+            print(f"Theme {theme_name} has pull_now=true")
+
+    for comp_type, components in catalog.get("components", {}).items():
+        for comp_name, comp_info in components.items():
+            if comp_info.get("pull_now") == "true":
+                pull_now_count += 1
+                print(f"Component {comp_name} has pull_now=true")
+
+    print(f"Found {pull_now_count} entries with pull_now=true")
+
+    # Process the repositories
+    updated = process_repository_entries()
+
+    # Verify no infinite loops - check if we still have pull_now=true entries
+    # after processing
+    if updated:
+        # Re-load catalog and check
+        verify_catalog = load_catalog()
+        still_true_count = 0
+
+        for theme_name, theme_info in verify_catalog.get("themes", {}).items():
+            if theme_info.get("pull_now") == "true":
+                still_true_count += 1
+                print(f"WARNING: Theme {theme_name} still has pull_now=true after processing!")
+
+        for comp_type, components in verify_catalog.get("components", {}).items():
+            for comp_name, comp_info in components.items():
+                if comp_info.get("pull_now") == "true":
+                    still_true_count += 1
+                    print(f"WARNING: Component {comp_name} still has pull_now=true after processing!")
+
+        if still_true_count >= pull_now_count:
+            print("ERROR: Failed to update pull_now flags! Potential infinite loop detected.")
+            # Create an emergency marker to prevent infinite loops
+            with open(REPO_ROOT / ".github" / "PROCESSING_ERROR", 'w') as f:
+                f.write(f"Failed to update pull_now flags on {datetime.utcnow().isoformat()}")
+
     print("Processing complete")
 
 if __name__ == "__main__":
+    # Check for emergency marker
+    error_marker = REPO_ROOT / ".github" / "PROCESSING_ERROR"
+    if error_marker.exists():
+        print("ERROR: Previous processing failure detected. Manual intervention required.")
+        print(f"Delete {error_marker} to resume processing.")
+        sys.exit(1)
+
     main()
