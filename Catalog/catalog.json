@@ -1,17 +1,6 @@
 {
   "last_updated": "2025-04-26T17:06:42.571103Z",
   "themes": {
-    "test.theme": {
-      "preview_path": "Catalog/Themes/previews/test.theme.png",
-      "manifest_path": "Catalog/Themes/manifests/test.theme.json",
-      "author": "Your Name",
-      "description": "My Theme Template",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/test.theme.zip",
-      "last_updated": "2025-04-26T17:06:42.571087Z",
-      "repository": "https://github.com/Leviathanium/Template.theme",
-      "commit": "d9819377cc0da3c6bc8d98bbf42b461e9aaf5f9e",
-      "branch": "main"
-    },
     "Pop-Tarts-Clean.theme": {
       "author": "Shin",
       "repository": "https://github.com/KrutzOtrem/pop-tarts.theme/tree/Clean",
@@ -19,8 +8,7 @@
       "preview_path": "Catalog/Themes/previews/Pop-Tarts-Clean.theme.png",
       "manifest_path": "Catalog/Themes/manifests/Pop-Tarts-Clean.theme.json",
       "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip",
-      "description": "Pop-Tarts Clean.theme",
-      "pull_now": "true"
+      "description": "Pop-Tarts Clean.theme"
     },
     "Deep-Space.theme": {
       "preview_path": "Catalog/Themes/previews/Deep-Space.theme.png",
@@ -112,9 +100,6 @@
         "author": "Leviathan",
         "description": "Arcade-Dark.bg",
         "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/Wallpapers/Arcade-Dark.bg.zip"
-      },
-      "ListWallpapers": {
-        "INVALID": "No manifest.json file found"
       }
     },
     "overlays": {
@@ -125,8 +110,7 @@
         "preview_path": "Catalog/Components/Overlays/previews/Limited-Editions.over.png",
         "manifest_path": "Catalog/Components/Overlays/manifests/Limited-Editions.over.json",
         "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/Overlays/Limited-Editions.over.zip",
-        "description": "Pokemon and Mario Limited Editions",
-        "pull_now": "true"
+        "description": "Pokemon and Mario Limited Editions"
       }
     }
   }
