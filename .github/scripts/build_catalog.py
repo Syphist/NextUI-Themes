@@ -170,20 +170,19 @@ def merge_component_info(comp_name, new_info, existing_info=None):
         # Start with existing info to preserve all fields
         comp_info = OrderedDict(existing_info)
 
+        # Always preserve repository metadata if it exists
+        if "repository" in existing_info and "repository" not in new_info:
+            comp_info["repository"] = existing_info["repository"]
+        if "commit" in existing_info and "commit" not in new_info:
+            comp_info["commit"] = existing_info["commit"]
+
+        # If pull_now is set to true, DO NOT change it - let process_repos.py handle it
+        if "pull_now" in existing_info and existing_info["pull_now"] == "true":
+            comp_info["pull_now"] = "true"
+
     # Update with new information
     for key, value in new_info.items():
         comp_info[key] = value
-
-    # Always preserve repository metadata if it exists
-    if "repository" in existing_info and "repository" not in new_info:
-        comp_info["repository"] = existing_info["repository"]
-    if "commit" in existing_info and "commit" not in new_info:
-        comp_info["commit"] = existing_info["commit"]
-
-    # If pull_now is set to true, DO NOT change it - let process_repos.py handle it
-    # If pull_now is not present, don't add it (direct uploads)
-    if "pull_now" in existing_info and existing_info["pull_now"] == "true":
-        comp_info["pull_now"] = "true"
 
     return comp_info
 
