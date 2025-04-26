@@ -148,10 +148,13 @@ def is_valid_item(item):
     return "INVALID" not in item and "preview_path" in item and "manifest_path" in item
 
 def get_valid_themes(catalog):
-    """Get valid themes from the catalog"""
-    theme_items = catalog.get("themes", {}).values()
-    valid_themes = [item for item in theme_items if is_valid_item(item)]
-    return sorted(valid_themes, key=lambda x: x.get("last_updated", ""), reverse=True)
+    """Get valid themes from the catalog, preserving catalog.json order"""
+    # Get items as list of (key, value) pairs to preserve order
+    theme_items = list(catalog.get("themes", {}).items())
+    # Extract only the values (theme objects) while preserving order
+    valid_themes = [item[1] for item in theme_items if is_valid_item(item[1])]
+    # No sorting - preserve the insertion order from catalog.json
+    return valid_themes  # REMOVED sorting by last_updated
 
 def generate_component_index(component_type, valid_items):
     """Generate a simple index page for a component type"""
@@ -242,22 +245,21 @@ def main():
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
 
-    # Get valid themes
+    # Get valid themes - now preserving original order
     valid_themes = get_valid_themes(catalog)
 
     # Generate component indices
     for component_type in COMPONENT_TYPES.keys():
         if component_type == "themes":
-            # For themes, we'll use the valid_themes list
+            # For themes, use the valid_themes list
             generate_component_index(component_type, valid_themes)
         else:
             # For other components, get their valid items
-            # Remove this line: component_name = component_type.rstrip("s")  # Remove plural 's'
-
-            # Use the component_type directly (keeping it plural)
-            component_items = catalog.get("components", {}).get(component_type, {}).values()
-            valid_items = [item for item in component_items if is_valid_item(item)]
-            valid_items = sorted(valid_items, key=lambda x: x.get("last_updated", ""), reverse=True)
+            # Preserve catalog.json order by getting items as list
+            component_items = list(catalog.get("components", {}).get(component_type, {}).items())
+            # Extract values while preserving order
+            valid_items = [item[1] for item in component_items if is_valid_item(item[1])]
+            # REMOVED: No sorting by last_updated
             generate_component_index(component_type, valid_items)
 
     # Generate main index with only featured themes section
