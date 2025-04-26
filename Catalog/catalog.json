@@ -1,6 +1,11 @@
 {
   "last_updated": "2025-04-26T00:09:57.301053Z",
   "themes": {
+    "Pop-Tarts Clean.theme": {
+      "author": "Shin", 
+      "repository": "https://github.com/KrutzOtrem/pop-tarts.theme/tree/Clean",
+      "commit": "a53b93ef9baef44da11db81576abbdf8296eab9f"
+    },
     "Consolized.theme": {
       "preview_path": "Catalog/Themes/previews/Consolized.theme.png",
       "manifest_path": "Catalog/Themes/manifests/Consolized.theme.json",
