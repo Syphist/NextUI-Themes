@@ -102,6 +102,7 @@
     "overlays": {
       "Limited-Editions.over": {
         "author": "Shin",
+        "description": "Limited-Editions.over",
         "repository": "https://github.com/KrutzOtrem/limited-editions.over",
         "commit": "d235766403c02b6f0002f75e1b859cbf65d73b50",
         "pull_now": "true"
