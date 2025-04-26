@@ -32,11 +32,9 @@
       "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Deep-Space.theme.zip"
     },
     "Pop-Tarts.theme": {
-      "preview_path": "Catalog/Themes/previews/Pop-Tarts.theme.png",
-      "manifest_path": "Catalog/Themes/manifests/Pop-Tarts.theme.json",
       "author": "Shin",
-      "description": "Pop-Tarts.theme",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts.theme.zip"
+      "repository": "https://github.com/KrutzOtrem/pop-tarts.theme",
+      "commit": "bd34b6785b524bcee3faa27293fa61f66b148eb1",
     }
   },
   "components": {
