@@ -1,6 +1,14 @@
 {
-  "last_updated": "2025-04-26T18:48:52.861494Z",
+  "last_updated": "2025-04-26T19:00:14.898306Z",
   "themes": {
+    "Default.theme": {
+      "preview_path": "Catalog/.metadata/previews/Default.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Default.theme.json",
+      "author": "NextUI",
+      "description": "Default.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Default.theme.zip",
+      "last_updated": "2025-04-26T19:00:14.852308Z"
+    },
     "Pop-Tarts.theme": {
       "preview_path": "Catalog/.metadata/previews/Pop-Tarts.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Pop-Tarts.theme.json",
@@ -49,6 +57,72 @@
     "icons": {},
     "fonts": {},
     "wallpapers": {},
-    "overlays": {}
+    "overlays": {},
+    "bg": {
+      "Sunset-Forest.bg": {
+        "preview_path": "Catalog/.metadata/previews/Sunset-Forest.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Sunset-Forest.bg.json",
+        "author": "Leviathan",
+        "description": "Sunset-Forest.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Sunset-Forest.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.898299Z"
+      },
+      "Retro-Programmer.bg": {
+        "preview_path": "Catalog/.metadata/previews/Retro-Programmer.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Retro-Programmer.bg.json",
+        "author": "Leviathan",
+        "description": "Retro-Programmer.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Retro-Programmer.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.888894Z"
+      },
+      "Retro-Mario-Chill.bg": {
+        "preview_path": "Catalog/.metadata/previews/Retro-Mario-Chill.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Retro-Mario-Chill.bg.json",
+        "author": "Leviathan",
+        "description": "Retro-Mario-Chill.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Retro-Mario-Chill.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.882236Z"
+      },
+      "Firewatch.bg": {
+        "preview_path": "Catalog/.metadata/previews/Firewatch.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Firewatch.bg.json",
+        "author": "Leviathan",
+        "description": "Firewatch.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Firewatch.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.878381Z"
+      },
+      "Default.bg": {
+        "preview_path": "Catalog/.metadata/previews/Default.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Default.bg.json",
+        "author": "Leviathan",
+        "description": "Default.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Default.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.872472Z"
+      },
+      "Cozy.bg": {
+        "preview_path": "Catalog/.metadata/previews/Cozy.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Cozy.bg.json",
+        "author": "Leviathan",
+        "description": "Cozy.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Cozy.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.870418Z"
+      },
+      "Blackstreets.bg": {
+        "preview_path": "Catalog/.metadata/previews/Blackstreets.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Blackstreets.bg.json",
+        "author": "Leviathan",
+        "description": "Blackstreets.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Blackstreets.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.863519Z"
+      },
+      "Arcade-Dark.bg": {
+        "preview_path": "Catalog/.metadata/previews/Arcade-Dark.bg.png",
+        "manifest_path": "Catalog/.metadata/manifests/Arcade-Dark.bg.json",
+        "author": "Leviathan",
+        "description": "Arcade-Dark.bg",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/wallpapers/Arcade-Dark.bg.zip",
+        "last_updated": "2025-04-26T19:00:14.856074Z"
+      }
+    }
   }
 }
