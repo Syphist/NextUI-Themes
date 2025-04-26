@@ -63,7 +63,8 @@ def load_push_json():
 
 def validate_submission(submission):
     """Validate a submission entry"""
-    required_fields = ["type", "name", "submission_method", "repository_url", "commit", "branch"]
+    # Basic required fields for all submissions
+    required_fields = ["type", "name", "author", "submission_method"]
 
     # Check for required fields
     for field in required_fields:
@@ -86,14 +87,18 @@ def validate_submission(submission):
         print(f"Error: Invalid submission_method '{submission['submission_method']}'. Must be 'repository' or 'zip'")
         return False
 
-    # Validate repository_url, commit, and branch for repository submissions
+    # Validate repository-specific fields only if submission method is "repository"
     if submission["submission_method"] == "repository":
-        if submission["repository_url"] == "None" or not submission["repository_url"]:
-            print("Error: repository_url cannot be 'None' for repository submissions")
-            return False
-        if submission["commit"] == "None" or not submission["commit"]:
-            print("Error: commit cannot be 'None' for repository submissions")
-            return False
+        # Check for required repository fields
+        repo_fields = ["repository_url", "commit"]
+        for field in repo_fields:
+            if field not in submission or not submission[field] or submission[field] == "None":
+                print(f"Error: '{field}' is required for repository submissions")
+                return False
+
+        # Branch is optional, but if provided should not be "None"
+        if "branch" not in submission:
+            submission["branch"] = "main"  # Default to main if not specified
 
     # Check for zip file if submission_method is zip
     if submission["submission_method"] == "zip":
@@ -418,15 +423,15 @@ def update_catalog(submission, preview_path, manifest_path, package_url):
         print(f"Error loading catalog: {e}")
         return False
 
-    # Extract metadata from manifest
+    # Extract metadata from manifest (but use submission author as primary source)
     manifest_full_path = REPO_ROOT / manifest_path
     metadata = extract_metadata_from_manifest(manifest_full_path)
 
-    # Create entry
+    # Create entry - Use author from submission (prioritize it over manifest)
     entry = {
         "preview_path": preview_path,
         "manifest_path": manifest_path,
-        "author": metadata["author"],
+        "author": submission["author"],  # Use author from submission
         "description": metadata["description"],
         "URL": package_url,
         "last_updated": datetime.utcnow().isoformat() + "Z"
@@ -436,7 +441,10 @@ def update_catalog(submission, preview_path, manifest_path, package_url):
     if submission["submission_method"] == "repository":
         entry["repository"] = submission["repository_url"]
         entry["commit"] = submission["commit"]
-        entry["branch"] = submission["branch"] if submission["branch"] != "None" else "main"
+        if "branch" in submission and submission["branch"] != "None":
+            entry["branch"] = submission["branch"]
+        else:
+            entry["branch"] = "main"
 
     # Add systems for overlays
     if submission["type"] == "overlay" and metadata["systems"]:
