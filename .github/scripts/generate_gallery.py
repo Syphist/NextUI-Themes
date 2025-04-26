@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
 """
-Script to generate the NextUI Themes Gallery
-Updated to work with the new directory structure
+Simplified gallery generation script that only creates a Featured Themes section
 """
 
 import os
 import json
-import math
 import re
 import shutil
 from string import Template
@@ -21,19 +19,9 @@ CATALOG_PATH = "Catalog/catalog.json"
 OUTPUT_DIR = ".github/index"
 TEMPLATES_DIR = ".github/templates"
 README_PATH = "README.md"
-MAX_FEATURED = 3
-MAX_RECENT = 6
-ITEMS_PER_PAGE = 12
+FEATURED_COUNT = 20  # Increased from 3 to 6 since this will be our only section
 COLUMNS_PER_ROW = 3
 README_GALLERY_PATTERN = r"<!-- GALLERY_START -->.*?<!-- GALLERY_END -->"
-
-# Icons and metadata
-PREVIEW_ICON = '<img title="View full-size preview" src="https://user-images.githubusercontent.com/44569252/194037184-ae453506-2536-4c6f-8a19-4a6c1de6ce32.png" width="16">'
-AUTHOR_ICON = '<img src="https://user-images.githubusercontent.com/44569252/194037581-698a5004-8b75-4da6-a63d-b41d541ebde2.png" width="16" title="Search themes by this author">'
-README_ICON = '<img src="https://user-images.githubusercontent.com/44569252/215358455-b6a1348b-8161-40d6-9cc1-cc31720377c4.png" height="16" title="README">'
-ICONPACK_ICON = '<img src="https://user-images.githubusercontent.com/44569252/215106002-fbcf1815-8080-447c-94c2-61f161efb503.png" height="16" title="This theme contains an icon pack">'
-PREV_PAGE_ICON = "https://github.com/OnionUI/Themes/assets/44569252/38f4d157-d58f-49fc-b006-2d131e9e3ecf"
-NEXT_PAGE_ICON = "https://github.com/OnionUI/Themes/assets/44569252/a0717376-2b5b-4534-9eba-4d2d3961f06b"
 
 # Component types
 COMPONENT_TYPES = {
@@ -82,14 +70,6 @@ def ensure_dir(path):
     """Ensure a directory exists"""
     os.makedirs(path, exist_ok=True)
 
-def url_encode(path):
-    """URL encode a path for use in URLs"""
-    return quote(path, safe='')
-
-def paginate_items(items, items_per_page=ITEMS_PER_PAGE):
-    """Split items into pages"""
-    return [items[i:i + items_per_page] for i in range(0, len(items), items_per_page)]
-
 def format_date(date_str):
     """Format a date string for display"""
     try:
@@ -97,47 +77,6 @@ def format_date(date_str):
         return date.strftime("%Y-%m-%d")
     except:
         return date_str
-
-def generate_page_filename(page, total_pages):
-    """Generate a filename for a page"""
-    if page == 0:
-        return "index.md"
-    else:
-        return f"page-{page+1}.md"
-
-def generate_pagination(current_page, total_pages, base_path):
-    """Generate pagination links"""
-    if total_pages <= 1:
-        return ""
-
-    pagination_template = load_template("pagination_template.md")
-
-    # Previous page link
-    prev_page = ""
-    if current_page > 0:
-        prev_file = generate_page_filename(current_page - 1, total_pages)
-        prev_page = f'<td align="right">\n\n[![Previous page]({PREV_PAGE_ICON})]({prev_file})\n\n</td>'
-
-    # Next page link
-    next_page = ""
-    if current_page < total_pages - 1:
-        next_file = generate_page_filename(current_page + 1, total_pages)
-        next_page = f'<td>\n\n[![Next page]({NEXT_PAGE_ICON})]({next_file})\n\n</td>'
-
-    # Page number links
-    page_links = []
-    for i in range(total_pages):
-        if i == current_page:
-            page_links.append(f"**{i+1}**")
-        else:
-            page_file = generate_page_filename(i, total_pages)
-            page_links.append(f"[{i+1}]({page_file})")
-
-    return pagination_template.substitute({
-        "PREV_PAGE": prev_page,
-        "PAGE_LINKS": " ".join(page_links),
-        "NEXT_PAGE": next_page
-    })
 
 def generate_item_card(item, type_key, width=None):
     """Generate a card for a theme or component"""
@@ -158,13 +97,6 @@ def generate_item_card(item, type_key, width=None):
     else:
         component_dir = COMPONENT_TYPES[type_key]["title"]
         history_url = f"{REPO_URL}/commits/main/Catalog/{component_dir}/{name}"
-
-    # Special features
-    has_readme = False  # We'd need to check if README exists
-    has_icons = type_key == "themes" and name in item.get("icons", [])
-
-    # Generate metadata icons
-    metadata_icons = []
 
     # Title for hover
     title_parts = []
@@ -187,7 +119,7 @@ def generate_item_card(item, type_key, width=None):
         "AUTHOR": author,
         "UPDATED": updated,
         "HISTORY_URL": history_url,
-        "METADATA_ICONS": "".join(metadata_icons)
+        "METADATA_ICONS": ""
     })
 
 def generate_grid(items, type_key):
@@ -211,174 +143,56 @@ def generate_grid(items, type_key):
     grid_items = "</tr><tr>\n".join(rows)
     return grid_template.substitute({"GRID_ITEMS": grid_items})
 
-def generate_systems_grid(overlays, type_key):
-    """Generate a systems-based grid of overlay items"""
-
-    # Group overlays by system
-    systems_map = {}
-
-    for overlay_name, overlay_info in overlays.items():
-        # Get the systems this overlay supports
-        systems = overlay_info.get("systems", [])
-
-        # If no systems defined, add to "Unknown" category
-        if not systems:
-            if "Unknown" not in systems_map:
-                systems_map["Unknown"] = []
-            systems_map["Unknown"].append((overlay_name, overlay_info))
-        else:
-            # Add this overlay to each system it supports
-            for system in systems:
-                if system not in systems_map:
-                    systems_map[system] = []
-                systems_map[system].append((overlay_name, overlay_info))
-
-    # Sort systems alphabetically
-    sorted_systems = sorted(systems_map.keys())
-
-    # Create the systems grid
-    result = []
-
-    for system in sorted_systems:
-        # Skip empty systems
-        if not systems_map[system]:
-            continue
-
-        overlays_for_system = systems_map[system]
-
-        # Add system header
-        result.append(f"### {system}\n")
-
-        # Generate grid of overlays for this system
-        rows = []
-        current_row = []
-
-        for i, (overlay_name, overlay_info) in enumerate(overlays_for_system):
-            current_row.append(generate_item_card(overlay_info, type_key))
-
-            if (i + 1) % COLUMNS_PER_ROW == 0 or i == len(overlays_for_system) - 1:
-                # Fill the row with empty cells if needed
-                while len(current_row) < COLUMNS_PER_ROW:
-                    current_row.append("")
-
-                rows.append("\n".join(current_row))
-                current_row = []
-
-        # Create grid for this system
-        grid_template = load_template("grid_template.md")
-        grid_items = "</tr><tr>\n".join(rows)
-        system_grid = grid_template.substitute({"GRID_ITEMS": grid_items})
-
-        result.append(system_grid)
-        result.append("\n\n")
-
-    return "\n".join(result)
-
-def generate_category_page(items, type_key, current_page, total_pages, total_items):
-    """Generate a category page"""
-    category_template = load_template("category_template.md")
-
-    grid = generate_grid(items, type_key)
-    pagination = generate_pagination(current_page, total_pages, "")
-
-    return category_template.substitute({
-        "CATEGORY_TITLE": COMPONENT_TYPES[type_key]["title"],
-        "CURRENT_PAGE": current_page + 1,
-        "TOTAL_PAGES": total_pages,
-        "TOTAL_ITEMS": total_items,
-        "GRID_ITEMS": grid,
-        "PAGINATION": pagination
-    })
-
-# Add this function to check if an item is valid
 def is_valid_item(item):
     """Check if an item is valid (doesn't have the INVALID flag)"""
     return "INVALID" not in item and "preview_path" in item and "manifest_path" in item
 
-# Then modify the generate_category_pages function to filter out invalid items:
-def generate_category_pages(catalog, type_key):
-    """Generate pages for a category"""
-    type_info = COMPONENT_TYPES[type_key]
-    category_dir = f"{OUTPUT_DIR}/{type_key}"
+def get_valid_themes(catalog):
+    """Get valid themes from the catalog"""
+    theme_items = catalog.get("themes", {}).values()
+    valid_themes = [item for item in theme_items if is_valid_item(item)]
+    return sorted(valid_themes, key=lambda x: x.get("last_updated", ""), reverse=True)
+
+def generate_component_index(component_type, valid_items):
+    """Generate a simple index page for a component type"""
+    type_info = COMPONENT_TYPES[component_type]
+    category_dir = f"{OUTPUT_DIR}/{component_type}"
     ensure_dir(category_dir)
 
-    # Get items for this type
-    if type_key == "themes":
-        all_items = catalog.get("themes", {}).values()
-    else:
-        all_items = catalog.get("components", {}).get(type_key.rstrip('s'), {}).values()
+    # Create a simple index page that links to the packages
+    content = f"# {type_info['title']}\n\n"
+    content += f"*{len(valid_items)} available {component_type}*\n\n"
+    content += generate_grid(valid_items, component_type)
 
-    # Filter out invalid items
-    items = [item for item in all_items if is_valid_item(item)]
-    items = sorted(items, key=lambda x: x.get("last_updated", ""), reverse=True)
-    total_items = len(items)
+    with open(f"{category_dir}/index.md", "w", encoding="utf-8") as f:
+        f.write(content)
 
-    if total_items == 0:
-        print(f"No valid items found for {type_info['title']}")
-        return []
+def generate_main_index(catalog, featured_themes):
+    """Generate a simplified main index page with only featured themes"""
+    index_template = """# NextUI Themes Gallery
 
-    # For overlays, use system-based organization instead of pagination
-    if type_key == "overlays":
-        print(f"Generating system-based pages for {type_info['title']}")
+Browse and download themes and components for NextUI devices.
 
-        # Get overlay items as dictionary with names
-        overlay_items = catalog.get("components", {}).get(type_key.rstrip('s'), {})
+## Categories
 
-        # Filter invalid items
-        overlay_items = {name: item for name, item in overlay_items.items()
-                         if is_valid_item(item)}
+- [Full Themes (.theme)](/.github/index/themes/index.md) - Complete theme packages
+- [Wallpapers (.bg)](/.github/index/wallpapers/index.md) - Background image collections
+- [Icons (.icon)](/.github/index/icons/index.md) - Custom icon packs
+- [Accents (.acc)](/.github/index/accents/index.md) - UI color schemes
+- [Fonts (.font)](/.github/index/fonts/index.md) - Custom system fonts
+- [Overlays (.over)](/.github/index/overlays/index.md) - System-specific overlays
 
-        # Generate single page with systems-based organization
-        content = f"# {type_info['title']}\n\n"
-        content += f"*{len(overlay_items)} items organized by system*\n\n"
+## Featured Themes
 
-        # Generate systems grid
-        content += generate_systems_grid(overlay_items, type_key)
-
-        # Write to index.md
-        with open(f"{category_dir}/index.md", "w", encoding="utf-8") as f:
-            f.write(content)
-
-        return items
-
-    # For everything else, use normal pagination
-    # Split items into pages
-    pages = paginate_items(items)
-    total_pages = len(pages)
-
-    print(f"Generating {total_pages} pages for {type_info['title']}")
-
-    # Generate each page
-    for i, page_items in enumerate(pages):
-        page_content = generate_category_page(
-            page_items, type_key, i, total_pages, total_items
-        )
-
-        page_filename = generate_page_filename(i, total_pages)
-        page_path = f"{category_dir}/{page_filename}"
-
-        with open(page_path, "w", encoding="utf-8") as f:
-            f.write(page_content)
-
-    return items
-
-def generate_main_index(catalog, featured_themes, recently_added, recently_updated):
-    """Generate the main index page"""
-    index_template = load_template("index_template.md")
+$FEATURED_THEMES
+"""
 
     # Generate featured themes grid
-    featured_grid = generate_grid(featured_themes[:MAX_FEATURED], "themes")
+    featured_grid = generate_grid(featured_themes[:FEATURED_COUNT], "themes")
 
-    # Generate recently added grid
-    recent_grid = generate_grid(recently_added[:MAX_RECENT], "themes")
-
-    # Generate recently updated grid
-    updated_grid = generate_grid(recently_updated[:MAX_RECENT], "themes")
-
-    index_content = index_template.substitute({
-        "FEATURED_THEMES": featured_grid,
-        "RECENTLY_ADDED": recent_grid,
-        "RECENTLY_UPDATED": updated_grid
+    # Create the main index page
+    index_content = Template(index_template).substitute({
+        "FEATURED_THEMES": featured_grid
     })
 
     ensure_dir(OUTPUT_DIR)
@@ -386,7 +200,7 @@ def generate_main_index(catalog, featured_themes, recently_added, recently_updat
         f.write(index_content)
 
 def update_readme_gallery(featured_themes):
-    """Update the gallery section in the README"""
+    """Update the gallery section in the README with only featured themes"""
     # Read the current README
     try:
         with open(README_PATH, "r", encoding="utf-8") as f:
@@ -396,7 +210,7 @@ def update_readme_gallery(featured_themes):
         return False
 
     # Generate featured themes grid
-    featured_grid = generate_grid(featured_themes[:MAX_FEATURED], "themes")
+    featured_grid = generate_grid(featured_themes[:FEATURED_COUNT], "themes")
 
     # Create the replacement content
     gallery_content = f"<!-- GALLERY_START -->\n## Featured Themes\n\n{featured_grid}\n\n<div align=\"center\"><h3><a href=\".github/index/index.md\">Browse All Themes</a></h3></div>\n<!-- GALLERY_END -->"
@@ -414,14 +228,9 @@ def update_readme_gallery(featured_themes):
         print("Gallery section not found in README")
         return False
 
-def select_featured_themes(themes, count=MAX_FEATURED):
-    """Select featured themes based on recency and quality"""
-    # For now, just use the most recently updated themes
-    return sorted(themes, key=lambda x: x.get("last_updated", ""), reverse=True)[:count]
-
 def main():
-    """Main function"""
-    print("Generating theme gallery...")
+    """Main function with simplified gallery structure"""
+    print("Generating simplified theme gallery...")
 
     # Load the catalog
     catalog = load_catalog()
@@ -433,30 +242,30 @@ def main():
     if os.path.exists(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
 
-    # Generate pages for each category
-    all_themes = []
-    recently_updated = []
+    # Get valid themes
+    valid_themes = get_valid_themes(catalog)
 
-    for type_key in COMPONENT_TYPES.keys():
-        items = generate_category_pages(catalog, type_key)
+    # Generate component indices
+    for component_type in COMPONENT_TYPES.keys():
+        if component_type == "themes":
+            # For themes, we'll use the valid_themes list
+            generate_component_index(component_type, valid_themes)
+        else:
+            # For other components, get their valid items
+            component_name = component_type.rstrip("s")  # Remove plural 's'
+            component_items = catalog.get("components", {}).get(component_name, {}).values()
+            valid_items = [item for item in component_items if is_valid_item(item)]
+            valid_items = sorted(valid_items, key=lambda x: x.get("last_updated", ""), reverse=True)
+            generate_component_index(component_type, valid_items)
 
-        # For themes, also build lists for the main page
-        if type_key == "themes" and items:
-            all_themes = items
-            recently_updated = sorted(items, key=lambda x: x.get("last_updated", ""), reverse=True)
-
-    # Select featured and recent items
-    featured_themes = select_featured_themes(all_themes)
-    recently_added = sorted(all_themes, key=lambda x: x.get("creation_date", ""), reverse=True)
-
-    # Generate main index
-    generate_main_index(catalog, featured_themes, recently_added, recently_updated)
+    # Generate main index with only featured themes section
+    generate_main_index(catalog, valid_themes)
 
     # Update README gallery section
-    if update_readme_gallery(featured_themes):
+    if update_readme_gallery(valid_themes):
         print("Updated README gallery section")
 
-    print("Gallery generation complete!")
+    print("Simplified gallery generation complete!")
 
 if __name__ == "__main__":
     main()
