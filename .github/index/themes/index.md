@@ -1,6 +1,6 @@
 # Full Themes
 
-*6 available themes*
+*5 available themes*
 
 <table align="center"><tr>
 <td align="center" valign="top" width="33%">
@@ -68,17 +68,5 @@
 </sub>
 </td>
 
-<td align="center" valign="top" width="33%">
-
-<a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/test.theme.zip">
-<img title="Name: My Theme Template&#013;Author: Your Name&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/Themes/previews/test.theme.png" /><br/>
-<b>My Theme Template</b>
-</a><br/>
-<sup><i>Your Name</i></sup><br>
-<sub>
-<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/My Theme Template"></a></sup>
-
-</sub>
-</td>
 
 </tr></table>
