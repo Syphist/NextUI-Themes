@@ -594,6 +594,13 @@ def process_zip_submission(submission):
     if not update_catalog(submission, preview_path, manifest_path, package_url):
         return False
 
+    # Remove the original zip file from the Upload directory after successful processing
+    try:
+        os.remove(source_zip)
+        print(f"Removed original zip file from Upload directory: {source_zip}")
+    except Exception as e:
+        print(f"Warning: Could not remove original zip file {source_zip}: {e}")
+
     print(f"Successfully processed zip submission: {name}")
     return True
 
