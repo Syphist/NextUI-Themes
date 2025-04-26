@@ -32,12 +32,6 @@
       "repository_url": "https://github.com/KrutzOtrem/pop-tarts.theme",
       "commit": "bd34b6785b524bcee3faa27293fa61f66b148eb1",
       "branch": "main"
-    },
-    {
-      "type": "theme",
-      "name": "Default.theme",
-      "author": "NextUI",
-      "submission_method": "zip"
     }
   ]
 }
