@@ -1,8 +1,21 @@
 # Full Themes
 
-*Page 1 of 1 — 5 items*
+*Page 1 of 1 — 6 items*
 
 <table align="center"><tr>
+<td align="center" valign="top" width="33%">
+
+<a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/test.theme.zip">
+<img title="Name: My Theme Template&#013;Author: Your Name&#013;Last updated: 2025-04-26&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/Themes/previews/test.theme.png" /><br/>
+<b>My Theme Template</b>
+</a><br/>
+<sup><i>Your Name</i></sup><br>
+<sub>
+<sup><a title="Last updated: 2025-04-26" href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/My Theme Template">2025-04-26</a></sup>
+
+</sub>
+</td>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip">
@@ -11,7 +24,7 @@
 </a><br/>
 <sup><i>Shin</i></sup><br>
 <sub>
-<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/themes/Pop-Tarts Clean.theme"></a></sup>
+<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Pop-Tarts Clean.theme"></a></sup>
 
 </sub>
 </td>
@@ -24,11 +37,11 @@
 </a><br/>
 <sup><i>Shin</i></sup><br>
 <sub>
-<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/themes/Deep Space"></a></sup>
+<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Deep Space"></a></sup>
 
 </sub>
 </td>
-
+</tr><tr>
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Consolized.theme.zip">
@@ -37,11 +50,11 @@
 </a><br/>
 <sup><i>Gamnrd</i></sup><br>
 <sub>
-<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/themes/Consolized.theme"></a></sup>
+<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Consolized.theme"></a></sup>
 
 </sub>
 </td>
-</tr><tr>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts.theme.zip">
@@ -50,7 +63,7 @@
 </a><br/>
 <sup><i>Shin</i></sup><br>
 <sub>
-<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/themes/Pop-Tarts.theme"></a></sup>
+<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Pop-Tarts.theme"></a></sup>
 
 </sub>
 </td>
@@ -63,11 +76,10 @@
 </a><br/>
 <sup><i>NextUI</i></sup><br>
 <sub>
-<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/themes/Default.theme"></a></sup>
+<sup><a title="Last updated: " href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Default.theme"></a></sup>
 
 </sub>
 </td>
-
 
 </tr></table>
 
