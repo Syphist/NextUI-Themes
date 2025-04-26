@@ -1,6 +1,17 @@
 {
-  "last_updated": "2025-04-26T16:59:33.715586Z",
+  "last_updated": "2025-04-26T17:06:42.571103Z",
   "themes": {
+    "test.theme": {
+      "preview_path": "Catalog/Themes/previews/test.theme.png",
+      "manifest_path": "Catalog/Themes/manifests/test.theme.json",
+      "author": "Your Name",
+      "description": "My Theme Template",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/test.theme.zip",
+      "last_updated": "2025-04-26T17:06:42.571087Z",
+      "repository": "https://github.com/Leviathanium/Template.theme",
+      "commit": "d9819377cc0da3c6bc8d98bbf42b461e9aaf5f9e",
+      "branch": "main"
+    },
     "Pop-Tarts-Clean.theme": {
       "author": "Shin",
       "repository": "https://github.com/KrutzOtrem/pop-tarts.theme/tree/Clean",
