@@ -1,15 +1,15 @@
 {
-  "last_updated": "2025-04-26T01:25:06.024822Z",
+  "last_updated": "2025-04-26T01:34:25.628528Z",
   "themes": {
     "Pop-Tarts-Clean.theme": {
       "author": "Shin",
       "repository": "https://github.com/KrutzOtrem/pop-tarts.theme/tree/Clean",
       "commit": "a53b93ef9baef44da11db81576abbdf8296eab9f",
-      "pull_now": "true",
       "preview_path": "Catalog/Themes/previews/Pop-Tarts-Clean.theme.png",
       "manifest_path": "Catalog/Themes/manifests/Pop-Tarts-Clean.theme.json",
       "description": "Pop-Tarts Clean.theme",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip"
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip",
+      "pull_now": "true"
     },
     "Deep-Space.theme": {
       "preview_path": "Catalog/Themes/previews/Deep-Space.theme.png",
@@ -111,10 +111,11 @@
         "author": "Shin",
         "repository": "https://github.com/KrutzOtrem/limited-editions.over",
         "commit": "d235766403c02b6f0002f75e1b859cbf65d73b50",
-        "pull_now": "true",
         "preview_path": "Catalog/Components/Overlays/previews/Limited-Editions.over.png",
         "manifest_path": "Catalog/Components/Overlays/manifests/Limited-Editions.over.json",
-        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/Overlays/Limited-Editions.over.zip"
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Components/Overlays/Limited-Editions.over.zip",
+        "description": "Pokemon and Mario Limited Editions",
+        "pull_now": "true"
       }
     }
   }
