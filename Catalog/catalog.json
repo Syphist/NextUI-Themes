@@ -37,13 +37,6 @@
       "author": "NextUI",
       "description": "Default.theme",
       "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Default.theme.zip"
-    },
-    "test.theme": {
-      "preview_path": "Catalog/Themes/previews/test.theme.png",
-      "manifest_path": "Catalog/Themes/manifests/test.theme.json",
-      "author": "Your Name",
-      "description": "My Theme Template",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/test.theme.zip"
     }
   },
   "components": {
