@@ -1,6 +1,48 @@
 {
-  "last_updated": "2025-04-26T17:12:14.870328Z",
-  "themes": {},
+  "last_updated": "2025-04-26T18:48:52.861494Z",
+  "themes": {
+    "Pop-Tarts.theme": {
+      "preview_path": "Catalog/.metadata/previews/Pop-Tarts.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Pop-Tarts.theme.json",
+      "author": "Shin",
+      "description": "Pop-Tarts.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pop-Tarts.theme.zip",
+      "last_updated": "2025-04-26T18:48:52.861481Z",
+      "repository": "https://github.com/KrutzOtrem/pop-tarts.theme",
+      "commit": "bd34b6785b524bcee3faa27293fa61f66b148eb1",
+      "branch": "main"
+    },
+    "Consolized.theme": {
+      "preview_path": "Catalog/.metadata/previews/Consolized.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Consolized.theme.json",
+      "author": "Gamnrd",
+      "description": "Consolized.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Consolized.theme.zip",
+      "last_updated": "2025-04-26T18:48:48.684078Z"
+    },
+    "Deep-Space.theme": {
+      "preview_path": "Catalog/.metadata/previews/Deep-Space.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Deep-Space.theme.json",
+      "author": "Shin",
+      "description": "Deep Space.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Deep-Space.theme.zip",
+      "last_updated": "2025-04-26T18:48:48.557817Z",
+      "repository": "https://github.com/KrutzOtrem/deep-space.theme",
+      "commit": "2f8fdfdd5177bf9f5d8022e2f2e3f64564d04917",
+      "branch": "main"
+    },
+    "Pop-Tarts-Clean.theme": {
+      "preview_path": "Catalog/.metadata/previews/Pop-Tarts-Clean.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Pop-Tarts-Clean.theme.json",
+      "author": "Shin",
+      "description": "Pop-Tarts Clean.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pop-Tarts-Clean.theme.zip",
+      "last_updated": "2025-04-26T18:48:42.455490Z",
+      "repository": "https://github.com/KrutzOtrem/pop-tarts.theme",
+      "commit": "a53b93ef9baef44da11db81576abbdf8296eab9f",
+      "branch": "Clean"
+    }
+  },
   "components": {
     "accents": {},
     "leds": {},
