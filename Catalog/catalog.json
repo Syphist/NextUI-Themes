@@ -1,21 +1,19 @@
 {
-  "last_updated": "2025-04-26T00:34:55.206793Z",
+  "last_updated": "2025-04-26T00:37:38.559454Z",
   "themes": {
-    "Pop-Tarts-Clean.theme": {
-      "author": "Shin",
-      "repository": "https://github.com/KrutzOtrem/pop-tarts.theme/tree/Clean",
-      "commit": "a53b93ef9baef44da11db81576abbdf8296eab9f",
-      "preview_path": "Catalog/Themes/previews/Pop-Tarts-Clean.theme.png",
-      "manifest_path": "Catalog/Themes/manifests/Pop-Tarts-Clean.theme.json",
-      "description": "Pop-Tarts Clean.theme",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip"
-    },
     "Consolized.theme": {
       "preview_path": "Catalog/Themes/previews/Consolized.theme.png",
       "manifest_path": "Catalog/Themes/manifests/Consolized.theme.json",
       "author": "Gamnrd",
       "description": "Consolized.theme",
       "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Consolized.theme.zip"
+    },
+    "Pop-Tarts-Clean.theme": {
+      "preview_path": "Catalog/Themes/previews/Pop-Tarts-Clean.theme.png",
+      "manifest_path": "Catalog/Themes/manifests/Pop-Tarts-Clean.theme.json",
+      "author": "Shin",
+      "description": "Pop-Tarts Clean.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts-Clean.theme.zip"
     },
     "Default.theme": {
       "preview_path": "Catalog/Themes/previews/Default.theme.png",
@@ -32,9 +30,11 @@
       "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Deep-Space.theme.zip"
     },
     "Pop-Tarts.theme": {
+      "preview_path": "Catalog/Themes/previews/Pop-Tarts.theme.png",
+      "manifest_path": "Catalog/Themes/manifests/Pop-Tarts.theme.json",
       "author": "Shin",
-      "repository": "https://github.com/KrutzOtrem/pop-tarts.theme",
-      "commit": "bd34b6785b524bcee3faa27293fa61f66b148eb1",
+      "description": "Pop-Tarts.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Uploads/Themes/Pop-Tarts.theme.zip"
     }
   },
   "components": {
