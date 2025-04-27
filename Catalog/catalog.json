@@ -1,6 +1,14 @@
 {
-  "last_updated": "2025-04-27T21:20:26.741997Z",
+  "last_updated": "2025-04-27T23:11:33.790477Z",
   "themes": {
+    "Game-Rentals.theme": {
+      "preview_path": "Catalog/.metadata/previews/Game-Rentals.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Game-Rentals.theme.json",
+      "author": "GreenKraken22",
+      "description": "Game-Rentals",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Game-Rentals.theme.zip",
+      "last_updated": "2025-04-27T23:11:33.790463Z"
+    },
     "Noir.theme": {
       "preview_path": "Catalog/.metadata/previews/Noir.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Noir.theme.json",
