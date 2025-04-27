@@ -8,6 +8,19 @@ Repository for NextUI themes and component packages.
 <table align="center"><tr>
 <td align="center" valign="top" width="33%">
 
+<a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Game-Rentals.theme.zip">
+<img title="Name: Game-Rentals&#013;Author: GreenKraken22&#013;Last updated: 2025-04-27&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Game-Rentals.theme.png" /><br/>
+<b>Game-Rentals</b>
+</a><br/>
+<sup><i>GreenKraken22</i></sup><br>
+<sub>
+<sup><a title="Last updated: 2025-04-27" href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Game-Rentals">2025-04-27</a></sup>
+
+</sub>
+</td>
+
+<td align="center" valign="top" width="33%">
+
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Noir.theme.zip">
 <img title="Name: Noir.theme&#013;Author: Leviathan&#013;Last updated: 2025-04-27&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Noir.theme.png" /><br/>
 <b>Noir.theme</b>
@@ -31,7 +44,7 @@ Repository for NextUI themes and component packages.
 
 </sub>
 </td>
-
+</tr><tr>
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pop-Tarts.theme.zip">
@@ -44,7 +57,7 @@ Repository for NextUI themes and component packages.
 
 </sub>
 </td>
-</tr><tr>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Deep-Space.theme.zip">
@@ -70,7 +83,7 @@ Repository for NextUI themes and component packages.
 
 </sub>
 </td>
-
+</tr><tr>
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Default.theme.zip">
@@ -83,6 +96,8 @@ Repository for NextUI themes and component packages.
 
 </sub>
 </td>
+
+
 
 </tr></table>
 
