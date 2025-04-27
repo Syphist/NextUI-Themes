@@ -1,6 +1,14 @@
 {
-  "last_updated": "2025-04-26T19:25:43.249402Z",
+  "last_updated": "2025-04-27T21:20:26.741997Z",
   "themes": {
+    "Noir.theme": {
+      "preview_path": "Catalog/.metadata/previews/Noir.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Noir.theme.json",
+      "author": "Leviathan",
+      "description": "Noir.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Noir.theme.zip",
+      "last_updated": "2025-04-27T21:20:26.741984Z"
+    },
     "Pop-Tarts-Clean.theme": {
       "preview_path": "Catalog/.metadata/previews/Pop-Tarts-Clean.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Pop-Tarts-Clean.theme.json",
@@ -12,7 +20,7 @@
       "commit": "a53b93ef9baef44da11db81576abbdf8296eab9f",
       "branch": "Clean"
     },
-     "Pop-Tarts.theme": {
+    "Pop-Tarts.theme": {
       "preview_path": "Catalog/.metadata/previews/Pop-Tarts.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Pop-Tarts.theme.json",
       "author": "Shin",
