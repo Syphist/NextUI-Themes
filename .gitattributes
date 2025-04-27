@@ -1,3 +1,4 @@
+*.zip filter=lfs diff=lfs merge=lfs -text
 *.bg.zip !text !filter !merge !diff
 *.icon.zip !text !filter !merge !diff
 *.over.zip !text !filter !merge !diff
