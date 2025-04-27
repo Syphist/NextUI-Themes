@@ -105,6 +105,6 @@ You can also browse and install themes and components *directly from the Theme M
 
 If you'd like to create your own theme/component and submit it, read the documentation [here](Upload) on how to format a pull request to this repo so we can add it.
 
-Make sure you've read the documentation on how to [create and export themes and components]() first!
+Make sure you've read the documentation on how to [create and export themes and components](https://github.com/Leviathanium/NextUI-Theme-Manager/blob/main/documents/THEME_BUILDING.md) first!
 
 If you need assistance, open an issue in this repository or join our Discord community.
