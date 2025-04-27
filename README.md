@@ -8,6 +8,19 @@ Repository for NextUI themes and component packages.
 <table align="center"><tr>
 <td align="center" valign="top" width="33%">
 
+<a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Noir.theme.zip">
+<img title="Name: Noir.theme&#013;Author: Leviathan&#013;Last updated: 2025-04-27&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Noir.theme.png" /><br/>
+<b>Noir.theme</b>
+</a><br/>
+<sup><i>Leviathan</i></sup><br>
+<sub>
+<sup><a title="Last updated: 2025-04-27" href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Noir.theme">2025-04-27</a></sup>
+
+</sub>
+</td>
+
+<td align="center" valign="top" width="33%">
+
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pop-Tarts-Clean.theme.zip">
 <img title="Name: Pop-Tarts Clean.theme&#013;Author: Shin&#013;Last updated: 2025-04-26&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Pop-Tarts-Clean.theme.png" /><br/>
 <b>Pop-Tarts Clean.theme</b>
@@ -31,7 +44,7 @@ Repository for NextUI themes and component packages.
 
 </sub>
 </td>
-
+</tr><tr>
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Deep-Space.theme.zip">
@@ -44,7 +57,7 @@ Repository for NextUI themes and component packages.
 
 </sub>
 </td>
-</tr><tr>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Consolized.theme.zip">
@@ -70,7 +83,6 @@ Repository for NextUI themes and component packages.
 
 </sub>
 </td>
-
 
 </tr></table>
 
