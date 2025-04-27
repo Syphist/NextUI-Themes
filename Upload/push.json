@@ -1,3 +1,10 @@
 {
-  "submission": []
+  "submission": [
+    {
+      "type": "theme",
+      "name": "Noir.theme",
+      "author": "Leviathan",
+      "submission_method": "zip"
+    }
+  ]
 }
