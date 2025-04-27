@@ -80,7 +80,7 @@ Repository for NextUI themes and component packages.
 
 ## How to Install
 
-To install themes, you need Theme Manager, available here: https://github.com/Leviathanium/NextUI-Theme-Manager
+To install themes, you need Theme Manager, available [here.](https://github.com/Leviathanium/NextUI-Theme-Manager) 
 
 ### Installing Themes
 
