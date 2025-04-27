@@ -103,7 +103,7 @@ You can also browse and install themes and components *directly from the Theme M
 
 ## Submit Your Theme!
 
-If you'd like to create your own theme/component and submit it, read the documentation [here](Upload/README.md) on how to format a pull request to this repo so we can add it.
+If you'd like to create your own theme/component and submit it, read the documentation [here](Upload) on how to format a pull request to this repo so we can add it.
 
 Make sure you've read the documentation on how to [create and export themes and components]() first!
 
