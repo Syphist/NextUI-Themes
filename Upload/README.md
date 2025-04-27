@@ -44,7 +44,7 @@ These fields are required ONLY when submission_method is "repository":
 
 ## Examples:
 
-```json
+```
 {
   "submission": [
     {
