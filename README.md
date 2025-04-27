@@ -101,8 +101,10 @@ To install themes, you need Theme Manager, available here: https://github.com/Le
 
 You can also browse and install themes and components *directly from the Theme Manager* if you have internet access!
 
-## Want to contribute?
+## Submit Your Theme!
 
-If you'd like to create your own theme/component and submit it, or find documentation on how themes and components work, all of this can be found in the Theme Manager's repository.
+If you'd like to create your own theme/component and submit it, read the documentation [here](Upload/README.md) on how to format a pull request to this repo so we can add it.
+
+Make sure you've read the documentation on how to [create and export themes and components]() first!
 
 If you need assistance, open an issue in this repository or join our Discord community.
