@@ -60,7 +60,7 @@ These fields are required ONLY when submission_method is "repository":
       "type": "wallpaper",
       "name": "MyWallpaper.bg",
       "author": "WallpaperArtist",
-      "submission_method": "zip"  // <--- Make sure to include the .zip package in the Upload directory if you choose to submit a .zip!
+      "submission_method": "zip"  // <--- Make sure to include the .zip package here inside the Upload directory if you choose to submit a .zip!
     }
   ]
 }
