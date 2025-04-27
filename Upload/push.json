@@ -1,3 +1,10 @@
 {
-  "submission": []
+  "submission": [
+    {
+      "type": "theme",
+      "name": "Game-Rentals.theme",
+      "author": "GreenKraken22",
+      "submission_method": "zip"
+    }
+  ]
 }
