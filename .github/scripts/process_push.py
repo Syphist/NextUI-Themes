@@ -13,6 +13,9 @@ import subprocess
 import re
 from pathlib import Path
 from datetime import datetime
+import urllib.request
+import tempfile
+import ssl
 
 # Base paths
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -95,8 +98,8 @@ def validate_submission(submission):
         return False
 
     # Validate submission_method
-    if submission["submission_method"] not in ["repository", "zip"]:
-        print(f"Error: Invalid submission_method '{submission['submission_method']}'. Must be 'repository' or 'zip'")
+    if submission["submission_method"] not in ["repository", "zip", "zip_url"]:
+        print(f"Error: Invalid submission_method '{submission['submission_method']}'. Must be 'repository', 'zip', or 'zip_url'")
         return False
 
     # Validate repository-specific fields only if submission method is "repository"
@@ -117,6 +120,17 @@ def validate_submission(submission):
         zip_path = UPLOAD_DIR / f"{submission['name']}.zip"
         if not zip_path.exists():
             print(f"Error: Zip file '{zip_path}' not found for zip submission")
+            return False
+
+    # Add URL-specific validation
+    if submission["submission_method"] == "zip_url":
+        # Check for required URL field
+        if "url" not in submission or not submission["url"]:
+            print(f"Error: 'url' is required for zip_url submissions")
+            return False
+        # Validate URL format (basic check)
+        if not submission["url"].startswith(("http://", "https://")):
+            print(f"Error: Invalid URL format '{submission['url']}'")
             return False
 
     return True
@@ -508,6 +522,77 @@ def update_catalog(submission, preview_path, manifest_path, package_url):
         print(f"Error saving catalog: {e}")
         return False
 
+# Add a new function to process URL-based submissions
+def process_url_submission(submission):
+    """Process a submission with a direct download URL"""
+    name = submission["name"]
+    component_type = submission["type"]
+    download_url = submission["url"]
+
+    print(f"Processing zip_url submission: {name}")
+    print(f"Download URL: {download_url}")
+
+    # Clean up existing entry
+    clean_existing_entry(submission)
+
+    # Create a temporary file to download the zip
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.zip') as temp_file:
+        temp_path = temp_file.name
+        print(f"Downloading to temporary file: {temp_path}")
+
+        try:
+            # Create SSL context that ignores certificate validation for some hosting services
+            context = ssl._create_unverified_context()
+
+            # Download the file
+            print(f"Starting download from {download_url}")
+            urllib.request.urlretrieve(download_url, temp_path)
+            print(f"Download complete: {os.path.getsize(temp_path)} bytes")
+
+            # Validate package contents
+            if not validate_package_contents(temp_path):
+                os.unlink(temp_path)
+                return False
+
+            # Copy to Packages directory
+            package_dir = PACKAGES_DIR / (component_type + "s")  # Add 's' to get themes, wallpapers, etc.
+            os.makedirs(package_dir, exist_ok=True)
+
+            package_path = package_dir / f"{name}.zip"
+            shutil.copy2(temp_path, package_path)
+            print(f"Copied to {package_path}")
+
+            # Extract package to Catalog
+            catalog_type_dir = CATALOG_DIR_MAPPINGS[component_type]
+            extract_dir = CATALOG_DIR / catalog_type_dir / name
+            os.makedirs(extract_dir, exist_ok=True)
+
+            if not extract_package(package_path, extract_dir):
+                os.unlink(temp_path)
+                return False
+
+            # Copy to .metadata directory
+            preview_path, manifest_path = copy_to_metadata(extract_dir, component_type, name)
+            if not preview_path or not manifest_path:
+                os.unlink(temp_path)
+                return False
+
+            # Generate package URL (use the original download URL)
+            package_url = download_url
+
+            # Update catalog
+            if not update_catalog(submission, preview_path, manifest_path, package_url):
+                os.unlink(temp_path)
+                return False
+
+            print(f"Successfully processed zip_url submission: {name}")
+            os.unlink(temp_path)
+            return True
+        except Exception as e:
+            print(f"Error processing zip_url submission: {e}")
+            os.unlink(temp_path)
+            return False
+
 def process_repository_submission(submission):
     """Process a repository submission"""
     name = submission["name"]
@@ -671,6 +756,10 @@ def main():
         elif submission["submission_method"] == "zip":
             if not process_zip_submission(submission):
                 print(f"Failed to process zip submission: {submission['name']}")
+                success = False
+        elif submission["submission_method"] == "zip_url":
+            if not process_url_submission(submission):
+                print(f"Failed to process zip_url submission: {submission['name']}")
                 success = False
 
     # Reset push.json if all submissions were processed successfully
