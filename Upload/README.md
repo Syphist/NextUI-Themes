@@ -8,59 +8,71 @@ Before submitting, make sure you've taken a look at the documentation:
 - [Component Documentation](https://github.com/Leviathanium/NextUI-Theme-Manager/blob/main/documents/COMPONENTS.md)
 - [Component Creation Guide](https://github.com/Leviathanium/NextUI-Theme-Manager/blob/main/documents/COMPONENT_BUILDING.md)
 
-Once you have your theme or component package (`.theme`, `.icon`, `.bg`, etc), you submit the package using a Github pull request using `push.json`. There are two ways to submit:
-1. Submit the URL, commit hash, and branch of your forked template repo, OR
-2. Create a `.zip` of the package and uploading it directly to `Upload` with your pull request
+Once you have your theme or component package (`.theme`, `.icon`, `.bg`, etc), you submit the package using a Github pull request using `push.json`. 
 
-When you create your pull request, you modify the `push.json` based on which method you chose. If you're attaching a `.zip`, it must go in the `Uploads` directory along with the changes you make to `push.json`.Your request must contain the following fields:
-## Required Fields for All Submissions
+## Submission Methods
 
-- `type`: Type of package. Can be one of:
-  - `theme`: Full theme package
-  - `wallpaper`: Background image
-  - `icon`: Icon pack
-  - `accent`: UI color scheme
-  - `led`: LED effect
-  - `font`: Custom font
-  - `overlay`: System-specific overlay
+We offer **three ways** to submit your theme or component:
 
-- `name`: Package name with its extension (e.g., "MyTheme.theme", "MyWallpaper.bg")
+### Option 1: Direct Repository Submission
 
-- `author`: Name of the theme or component creator
+If your theme is stored in a Git repository, submit it by providing the repository details:
 
-- `submission_method`: Either "repository" or "zip"
-  - `repository`: Pull from a Git repository
-  - `zip`: Use a zip file placed in the `Upload` directory
 
-## Additional Fields for Repository Submissions
-
-These fields are required ONLY when submission_method is "repository":
-
-- `repository_url`: URL of the Git repository
-
-- `commit`: Commit hash to use
-
-- `branch`: Branch to use (optional, defaults to "main")
-
-## Examples:
-
-```
+```json5
 {
   "submission": [
     {
-      "type": "theme",  
-      "name": "MyTheme.theme",
-      "author": "ThemeCreator",
+      "type": "theme",
+      "name": "Your-Theme.theme",
+      "author": "Your Name",
       "submission_method": "repository",
-      "repository_url": "https://github.com/user/theme-repo",
-      "commit": "abcdef123456",
+      "url": "https://github.com/yourusername/your-theme-repo",
+      "commit": "commit-hash-to-use",
       "branch": "main"
-    },
+    }
+  ]
+}
+```
+
+### Option 2: Direct Upload (For themes under 25MB)
+
+For smaller themes, you can upload the zip file directly:
+
+1. Place your theme zip file in this `Upload` directory
+2. Name the file exactly as specified in your push.json. **NOTE:** Don't include the `.zip` in the `"name"` field, as you can see below.
+3. Update `push.json` with your theme details:
+
+```json5
+{
+  "submission": [
     {
-      "type": "wallpaper",
-      "name": "MyWallpaper.bg",
-      "author": "WallpaperArtist",
-      "submission_method": "zip"  // <--- Make sure to include the .zip package here inside the Upload directory if you choose to submit a .zip!
+      "type": "theme",
+      "name": "Your-Theme.theme",
+      "author": "Your Name",
+      "submission_method": "zip"
+    }
+  ]
+}
+```
+
+### Option 3: External Hosting (For large themes over 25MB)
+
+For themes larger than GitHub's 25MB limit, host your zip file externally:
+
+1. Upload your theme zip to a file hosting service (Google Drive, Dropbox, etc.)
+2. Get a direct download link to your file
+3. Update `push.json` with your theme details and download URL:
+
+```json5
+{
+  "submission": [
+    {
+      "type": "theme",
+      "name": "Your-Theme.theme",
+      "author": "Your Name",
+      "submission_method": "url",
+      "url": "https://direct-download-url-to-your-file.zip"
     }
   ]
 }

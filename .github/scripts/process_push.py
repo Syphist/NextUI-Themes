@@ -98,36 +98,39 @@ def validate_submission(submission):
         return False
 
     # Validate submission_method
-    if submission["submission_method"] not in ["repository", "zip", "zip_url"]:
-        print(f"Error: Invalid submission_method '{submission['submission_method']}'. Must be 'repository', 'zip', or 'zip_url'")
+    valid_methods = ["repository", "zip", "url"]
+    if submission["submission_method"] not in valid_methods:
+        print(f"Error: Invalid submission_method '{submission['submission_method']}'. Must be one of: {', '.join(valid_methods)}")
         return False
 
-    # Validate repository-specific fields only if submission method is "repository"
+    # Validate method-specific fields
     if submission["submission_method"] == "repository":
         # Check for required repository fields
-        repo_fields = ["repository_url", "commit"]
-        for field in repo_fields:
-            if field not in submission or not submission[field] or submission[field] == "None":
-                print(f"Error: '{field}' is required for repository submissions")
-                return False
+        if "url" not in submission or not submission["url"]:
+            print(f"Error: 'url' is required for repository submissions")
+            return False
+
+        if "commit" not in submission or not submission["commit"]:
+            print(f"Error: 'commit' is required for repository submissions")
+            return False
 
         # Branch is optional, but if provided should not be "None"
         if "branch" not in submission:
             submission["branch"] = "main"  # Default to main if not specified
 
-    # Check for zip file if submission_method is zip
-    if submission["submission_method"] == "zip":
+    elif submission["submission_method"] == "zip":
+        # Check for zip file
         zip_path = UPLOAD_DIR / f"{submission['name']}.zip"
         if not zip_path.exists():
             print(f"Error: Zip file '{zip_path}' not found for zip submission")
             return False
 
-    # Add URL-specific validation
-    if submission["submission_method"] == "zip_url":
+    elif submission["submission_method"] == "url":
         # Check for required URL field
         if "url" not in submission or not submission["url"]:
-            print(f"Error: 'url' is required for zip_url submissions")
+            print(f"Error: 'url' is required for url submissions")
             return False
+
         # Validate URL format (basic check)
         if not submission["url"].startswith(("http://", "https://")):
             print(f"Error: Invalid URL format '{submission['url']}'")
@@ -529,7 +532,7 @@ def process_url_submission(submission):
     component_type = submission["type"]
     download_url = submission["url"]
 
-    print(f"Processing zip_url submission: {name}")
+    print(f"Processing URL submission: {name}")
     print(f"Download URL: {download_url}")
 
     # Clean up existing entry
@@ -553,6 +556,7 @@ def process_url_submission(submission):
             if not validate_package_contents(temp_path):
                 os.unlink(temp_path)
                 return False
+
 
             # Copy to Packages directory
             package_dir = PACKAGES_DIR / (component_type + "s")  # Add 's' to get themes, wallpapers, etc.
@@ -597,7 +601,7 @@ def process_repository_submission(submission):
     """Process a repository submission"""
     name = submission["name"]
     component_type = submission["type"]
-    repo_url = submission["repository_url"]
+    repo_url = submission["url"]  # Changed from repository_url to url
     commit = submission["commit"]
     branch = submission["branch"]
 
@@ -757,9 +761,9 @@ def main():
             if not process_zip_submission(submission):
                 print(f"Failed to process zip submission: {submission['name']}")
                 success = False
-        elif submission["submission_method"] == "zip_url":
+        elif submission["submission_method"] == "url":
             if not process_url_submission(submission):
-                print(f"Failed to process zip_url submission: {submission['name']}")
+                print(f"Failed to process URL submission: {submission['name']}")
                 success = False
 
     # Reset push.json if all submissions were processed successfully
