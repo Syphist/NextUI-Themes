@@ -1,7 +1,7 @@
 {
   "submission": [
     {
-      "type": "theme",
+      "type": "overlay",
       "name": "Vanilla.over",
       "author": "Shin",
       "submission_method": "zip"
