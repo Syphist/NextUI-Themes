@@ -168,22 +168,62 @@ def generate_component_index(component_type, valid_items):
 
     # Special handling for overlays with system filtering
     if component_type == "overlays":
-        # Collect all unique system tags
+        # Collect all unique system tags and find icons
         all_systems = set()
+        system_icons = {}  # Will store system code -> icon path
+
         for item in valid_items:
             if "systems" in item:
+                # Add all systems to our set
                 all_systems.update(item["systems"])
+
+                # Look for system icons in this overlay package
+                overlay_name = item.get("description", "").replace(" ", "-")
+                overlay_dir = CATALOG_DIR / "Overlays" / overlay_name
+
+                if overlay_dir.exists():
+                    # Look for the Systems directory
+                    systems_dir = overlay_dir / "Systems"
+                    if systems_dir.exists():
+                        # Check each system supported by this overlay
+                        for system in item["systems"]:
+                            # Skip if we already found an icon for this system
+                            if system in system_icons:
+                                continue
+
+                            # Look for system directory and icon
+                            system_dir = systems_dir / system
+                            if system_dir.exists():
+                                # Try common icon filenames
+                                for icon_name in ["icon.png", "overlay.png", "preview.png"]:
+                                    icon_path = system_dir / icon_name
+                                    if icon_path.exists():
+                                        # Found an icon! Store relative path from repo root
+                                        rel_path = icon_path.relative_to(REPO_ROOT)
+                                        system_icons[system] = f"https://github.com/Leviathanium/NextUI-Themes/raw/main/{rel_path}"
+                                        break
 
         # Sort systems alphabetically
         sorted_systems = sorted(all_systems)
 
-        # Add system navigation section
+        # Add system navigation section with icons
         if sorted_systems:
             content += "## Filter by System\n\n"
-            system_links = []
+            content += "<div style='display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;'>\n"
+
             for system in sorted_systems:
-                system_links.append(f"[{system}](#{system.lower()}-overlays)")
-            content += " | ".join(system_links) + "\n\n"
+                if system in system_icons:
+                    # We have an icon for this system
+                    content += f"<a href='#{system.lower()}-overlays' style='text-align: center; display: inline-block; margin: 5px;'>\n"
+                    content += f"<img src='{system_icons[system]}' alt='{system}' width='64' height='64' style='display: block; margin: 0 auto;'/><br/>\n"
+                    content += f"{system}\n</a>\n"
+                else:
+                    # No icon, just use text
+                    content += f"<a href='#{system.lower()}-overlays' style='text-align: center; display: inline-block; margin: 5px;'>\n"
+                    content += f"<div style='width: a64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>{system}</div>\n"
+                    content += f"{system}\n</a>\n"
+
+            content += "</div>\n\n"
 
             # Generate a section for each system
             for system in sorted_systems:
@@ -191,7 +231,12 @@ def generate_component_index(component_type, valid_items):
                 system_items = [item for item in valid_items if "systems" in item and system in item["systems"]]
 
                 if system_items:
-                    content += f"## {system} Overlays\n\n"
+                    # Add icon to header if available
+                    if system in system_icons:
+                        content += f"## <img src='{system_icons[system]}' alt='{system}' width='32' height='32' style='vertical-align: middle;'/> {system} Overlays\n\n"
+                    else:
+                        content += f"## {system} Overlays\n\n"
+
                     content += f"*{len(system_items)} overlays available for {system}*\n\n"
                     content += generate_grid(system_items, component_type)
                     content += "\n\n"
