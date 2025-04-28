@@ -168,6 +168,9 @@ def generate_component_index(component_type, valid_items):
 
     # Special handling for overlays with system filtering
     if component_type == "overlays":
+        # Get the Catalog directory path from CATALOG_PATH
+        catalog_dir = os.path.dirname(CATALOG_PATH)
+
         # Collect all unique system tags and find icons
         all_systems = set()
         system_icons = {}  # Will store system code -> icon path
@@ -179,12 +182,12 @@ def generate_component_index(component_type, valid_items):
 
                 # Look for system icons in this overlay package
                 overlay_name = item.get("description", "").replace(" ", "-")
-                overlay_dir = CATALOG_DIR / "Overlays" / overlay_name
+                overlay_dir = os.path.join(catalog_dir, "Overlays", overlay_name)
 
-                if overlay_dir.exists():
+                if os.path.exists(overlay_dir):
                     # Look for the Systems directory
-                    systems_dir = overlay_dir / "Systems"
-                    if systems_dir.exists():
+                    systems_dir = os.path.join(overlay_dir, "Systems")
+                    if os.path.exists(systems_dir):
                         # Check each system supported by this overlay
                         for system in item["systems"]:
                             # Skip if we already found an icon for this system
@@ -192,14 +195,14 @@ def generate_component_index(component_type, valid_items):
                                 continue
 
                             # Look for system directory and icon
-                            system_dir = systems_dir / system
-                            if system_dir.exists():
+                            system_dir = os.path.join(systems_dir, system)
+                            if os.path.exists(system_dir):
                                 # Try common icon filenames
                                 for icon_name in ["icon.png", "overlay.png", "preview.png"]:
-                                    icon_path = system_dir / icon_name
-                                    if icon_path.exists():
-                                        # Found an icon! Store relative path from repo root
-                                        rel_path = icon_path.relative_to(REPO_ROOT)
+                                    icon_path = os.path.join(system_dir, icon_name)
+                                    if os.path.exists(icon_path):
+                                        # Found an icon! Store relative path
+                                        rel_path = os.path.relpath(icon_path)
                                         system_icons[system] = f"https://github.com/Leviathanium/NextUI-Themes/raw/main/{rel_path}"
                                         break
 
@@ -220,7 +223,7 @@ def generate_component_index(component_type, valid_items):
                 else:
                     # No icon, just use text
                     content += f"<a href='#{system.lower()}-overlays' style='text-align: center; display: inline-block; margin: 5px;'>\n"
-                    content += f"<div style='width: a64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>{system}</div>\n"
+                    content += f"<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>{system}</div>\n"
                     content += f"{system}\n</a>\n"
 
             content += "</div>\n\n"
