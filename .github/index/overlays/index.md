@@ -1,6 +1,50 @@
 # Overlays
 
-*3 available overlays*
+*4 available overlays*
+
+## Vanilla.over
+
+*By Shin • Updated: 2025-04-28*
+
+<div align='center'><a href='https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip' style='display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;'>Download Vanilla.over</a></div>
+
+<div align='center'><a href='https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip'><img src='https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Vanilla.over.png' width='480px' alt='Vanilla.over'></a></div>
+
+### Supported Systems
+
+<div align='center'><table><tr>
+<td align='center' style='padding: 10px;'><b>MD</b></td>
+<td align='center' style='padding: 10px;'><b>MGBA</b></td>
+<td align='center' style='padding: 10px;'><b>SFC</b></td>
+</tr></table></div>
+
+### System Previews
+
+<div align='center'>
+<p><i>Click any image to download the complete overlay package</i></p>
+<table><tr>
+<td align='center' width='33%'>
+<a href='https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip'>
+<img src='https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Vanilla.over.png' width='240px' alt='Vanilla.over for MD'>
+<br/><b>MD</b> (Preview)
+</a>
+</td>
+<td align='center' width='33%'>
+<a href='https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip'>
+<img src='https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Vanilla.over.png' width='240px' alt='Vanilla.over for MGBA'>
+<br/><b>MGBA</b> (Preview)
+</a>
+</td>
+<td align='center' width='33%'>
+<a href='https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip'>
+<img src='https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/Overlays/Vanilla.over/Systems/SFC/overlay1.png' width='240px' alt='Vanilla.over for SFC'>
+<br/><b>SFC</b>
+</a>
+</td>
+</tr></table>
+</div>
+
+<hr>
 
 ## Pearly-Gate.over
 
