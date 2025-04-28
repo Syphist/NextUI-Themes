@@ -5,6 +5,7 @@ Simplified gallery generation script that only creates a Featured Themes section
 """
 
 import os
+import glob
 import json
 import re
 import shutil
@@ -156,6 +157,75 @@ def get_valid_themes(catalog):
     # No sorting - preserve the insertion order from catalog.json
     return valid_themes  # REMOVED sorting by last_updated
 
+def extract_system_images(valid_items):
+    """Extract system-specific images from extracted overlay packages"""
+    # Get catalog directory path from CATALOG_PATH
+    catalog_dir = os.path.dirname(CATALOG_PATH)
+
+    # Dictionary to store overlay system images
+    overlay_system_images = {}
+
+    for item in valid_items:
+        overlay_name = item.get("description", "Unknown")
+        # Normalize the name for directory paths
+        overlay_key = overlay_name.replace(" ", "-")
+
+        # Initialize system images for this overlay
+        overlay_system_images[overlay_key] = {}
+
+        # Skip if no systems information
+        if "systems" not in item:
+            continue
+
+        # Path to extracted overlay directory
+        overlay_dir = os.path.join(catalog_dir, "Overlays", overlay_key)
+
+        if not os.path.exists(overlay_dir):
+            print(f"Overlay directory not found: {overlay_dir}")
+            continue
+
+        # Look for the Systems directory
+        systems_dir = os.path.join(overlay_dir, "Systems")
+        if not os.path.exists(systems_dir):
+            print(f"Systems directory not found in: {overlay_dir}")
+            continue
+
+        # Process each system
+        for system in item["systems"]:
+            system_dir = os.path.join(systems_dir, system)
+
+            if not os.path.exists(system_dir):
+                print(f"System directory not found: {system_dir}")
+                continue
+
+            # Look for overlay images - try common file patterns
+            img_path = None
+            for img_pattern in ["overlay1.png", "overlay.png", "preview.png"]:
+                potential_path = os.path.join(system_dir, img_pattern)
+                if os.path.exists(potential_path):
+                    img_path = potential_path
+                    break
+
+            # If no specific image was found, try any PNG
+            if not img_path:
+                img_files = glob.glob(os.path.join(system_dir, "*.png"))
+                if img_files:
+                    img_path = img_files[0]  # Take the first PNG file
+
+            # Skip if no image found
+            if not img_path:
+                print(f"No image found for system: {system} in {system_dir}")
+                continue
+
+            # Create relative path for the image
+            rel_path = os.path.relpath(img_path, start=os.path.dirname(catalog_dir))
+            img_url = f"https://github.com/Leviathanium/NextUI-Themes/raw/main/{rel_path}"
+
+            # Store the image URL for this system
+            overlay_system_images[overlay_key][system] = img_url
+
+    return overlay_system_images
+
 def generate_component_index(component_type, valid_items):
     """Generate an index page for a component type with special handling for overlays"""
     type_info = COMPONENT_TYPES[component_type]
@@ -166,90 +236,82 @@ def generate_component_index(component_type, valid_items):
     content = f"# {type_info['title']}\n\n"
     content += f"*{len(valid_items)} available {component_type}*\n\n"
 
-    # Special handling for overlays with system filtering
+    # Special handling for overlays
     if component_type == "overlays":
-        # Get the Catalog directory path from CATALOG_PATH
-        catalog_dir = os.path.dirname(CATALOG_PATH)
+        # Extract system-specific images
+        system_images = extract_system_images(valid_items)
 
-        # Collect all unique system tags and find icons
-        all_systems = set()
-        system_icons = {}  # Will store system code -> icon path
-
+        # Process each overlay package
         for item in valid_items:
-            if "systems" in item:
-                # Add all systems to our set
-                all_systems.update(item["systems"])
+            # Extract basic information
+            overlay_name = item.get("description", "Unknown")
+            overlay_key = overlay_name.replace(" ", "-")  # Normalize the name
+            author = item.get("author", "Unknown")
+            download_url = item.get("URL", "#")
+            last_updated = format_date(item.get("last_updated", ""))
 
-                # Look for system icons in this overlay package
-                overlay_name = item.get("description", "").replace(" ", "-")
-                overlay_dir = os.path.join(catalog_dir, "Overlays", overlay_name)
+            # Create header for this overlay package
+            content += f"## {overlay_name}\n\n"
+            content += f"*By {author} • Updated: {last_updated}*\n\n"
 
-                if os.path.exists(overlay_dir):
-                    # Look for the Systems directory
-                    systems_dir = os.path.join(overlay_dir, "Systems")
-                    if os.path.exists(systems_dir):
-                        # Check each system supported by this overlay
-                        for system in item["systems"]:
-                            # Skip if we already found an icon for this system
-                            if system in system_icons:
-                                continue
+            # Add download button
+            content += f"<div align='center'><a href='{download_url}' style='display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;'>Download {overlay_name}</a></div>\n\n"
 
-                            # Look for system directory and icon
-                            system_dir = os.path.join(systems_dir, system)
-                            if os.path.exists(system_dir):
-                                # Try common icon filenames
-                                for icon_name in ["icon.png", "overlay.png", "preview.png"]:
-                                    icon_path = os.path.join(system_dir, icon_name)
-                                    if os.path.exists(icon_path):
-                                        # Found an icon! Store relative path
-                                        rel_path = os.path.relpath(icon_path)
-                                        system_icons[system] = f"https://github.com/Leviathanium/NextUI-Themes/raw/main/{rel_path}"
-                                        break
+            # Add preview image
+            preview_path = item.get("preview_path", "")
+            if preview_path:
+                preview_url = f"https://github.com/Leviathanium/NextUI-Themes/raw/main/{preview_path}"
+                content += f"<div align='center'><a href='{download_url}'><img src='{preview_url}' width='480px' alt='{overlay_name}'></a></div>\n\n"
 
-        # Sort systems alphabetically
-        sorted_systems = sorted(all_systems)
+            # Show supported systems
+            if "systems" in item and item["systems"]:
+                systems = item["systems"]
+                content += "### Supported Systems\n\n"
 
-        # Add system navigation section with icons
-        if sorted_systems:
-            content += "## Filter by System\n\n"
-            content += "<div style='display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;'>\n"
+                # Create a table with system tags
+                content += "<div align='center'><table><tr>\n"
+                for system in systems:
+                    content += f"<td align='center' style='padding: 10px;'><b>{system}</b></td>\n"
+                content += "</tr></table></div>\n\n"
 
-            for system in sorted_systems:
-                if system in system_icons:
-                    # We have an icon for this system
-                    content += f"<a href='#{system.lower()}-overlays' style='text-align: center; display: inline-block; margin: 5px;'>\n"
-                    content += f"<img src='{system_icons[system]}' alt='{system}' width='64' height='64' style='display: block; margin: 0 auto;'/><br/>\n"
-                    content += f"{system}\n</a>\n"
-                else:
-                    # No icon, just use text
-                    content += f"<a href='#{system.lower()}-overlays' style='text-align: center; display: inline-block; margin: 5px;'>\n"
-                    content += f"<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>{system}</div>\n"
-                    content += f"{system}\n</a>\n"
+                # Check if we have system images for this overlay
+                if overlay_key in system_images and system_images[overlay_key]:
+                    # Add a visual system showcase section
+                    content += "### System Previews\n\n"
+                    content += "<div align='center'>\n"
+                    content += "<p><i>Click any image to download the complete overlay package</i></p>\n"
 
-            content += "</div>\n\n"
+                    # Create rows of 3 systems per row
+                    systems_chunks = [systems[i:i+3] for i in range(0, len(systems), 3)]
+                    for chunk in systems_chunks:
+                        content += "<table><tr>\n"
+                        for system in chunk:
+                            content += f"<td align='center' width='33%'>\n"
+                            content += f"<a href='{download_url}'>\n"
 
-            # Generate a section for each system
-            for system in sorted_systems:
-                # Filter items for this system
-                system_items = [item for item in valid_items if "systems" in item and system in item["systems"]]
+                            # Use system-specific image if available, otherwise use main preview
+                            if system in system_images[overlay_key]:
+                                img_url = system_images[overlay_key][system]
+                                content += f"<img src='{img_url}' width='240px' alt='{overlay_name} for {system}'>\n"
+                                content += f"<br/><b>{system}</b>\n"
+                            else:
+                                # Fall back to preview image if specific system image not found
+                                content += f"<img src='{preview_url}' width='240px' alt='{overlay_name} for {system}'>\n"
+                                content += f"<br/><b>{system}</b> (Preview)\n"
 
-                if system_items:
-                    # Add icon to header if available
-                    if system in system_icons:
-                        content += f"## <img src='{system_icons[system]}' alt='{system}' width='32' height='32' style='vertical-align: middle;'/> {system} Overlays\n\n"
-                    else:
-                        content += f"## {system} Overlays\n\n"
+                            content += "</a>\n</td>\n"
 
-                    content += f"*{len(system_items)} overlays available for {system}*\n\n"
-                    content += generate_grid(system_items, component_type)
-                    content += "\n\n"
+                        # Fill remaining cells in the row if needed
+                        while len(chunk) < 3:
+                            content += "<td width='33%'></td>\n"
+                            chunk.append(None)  # Add placeholder
 
-        # Add section for overlays without system tags
-        unsorted_items = [item for item in valid_items if "systems" not in item]
-        if unsorted_items:
-            content += "## Other Overlays\n\n"
-            content += f"*{len(unsorted_items)} overlays without system tags*\n\n"
-            content += generate_grid(unsorted_items, component_type)
+                        content += "</tr></table>\n"
+
+                    content += "</div>\n\n"
+
+            # Add divider between overlay packages
+            content += "<hr>\n\n"
     else:
         # For non-overlay components, generate a single grid
         content += generate_grid(valid_items, component_type)
