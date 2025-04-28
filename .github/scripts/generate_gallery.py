@@ -157,15 +157,54 @@ def get_valid_themes(catalog):
     return valid_themes  # REMOVED sorting by last_updated
 
 def generate_component_index(component_type, valid_items):
-    """Generate a simple index page for a component type"""
+    """Generate an index page for a component type with special handling for overlays"""
     type_info = COMPONENT_TYPES[component_type]
     category_dir = f"{OUTPUT_DIR}/{component_type}"
     ensure_dir(category_dir)
 
-    # Create a simple index page that links to the packages
+    # Create basic header content
     content = f"# {type_info['title']}\n\n"
     content += f"*{len(valid_items)} available {component_type}*\n\n"
-    content += generate_grid(valid_items, component_type)
+
+    # Special handling for overlays with system filtering
+    if component_type == "overlays":
+        # Collect all unique system tags
+        all_systems = set()
+        for item in valid_items:
+            if "systems" in item:
+                all_systems.update(item["systems"])
+
+        # Sort systems alphabetically
+        sorted_systems = sorted(all_systems)
+
+        # Add system navigation section
+        if sorted_systems:
+            content += "## Filter by System\n\n"
+            system_links = []
+            for system in sorted_systems:
+                system_links.append(f"[{system}](#{system.lower()}-overlays)")
+            content += " | ".join(system_links) + "\n\n"
+
+            # Generate a section for each system
+            for system in sorted_systems:
+                # Filter items for this system
+                system_items = [item for item in valid_items if "systems" in item and system in item["systems"]]
+
+                if system_items:
+                    content += f"## {system} Overlays\n\n"
+                    content += f"*{len(system_items)} overlays available for {system}*\n\n"
+                    content += generate_grid(system_items, component_type)
+                    content += "\n\n"
+
+        # Add section for overlays without system tags
+        unsorted_items = [item for item in valid_items if "systems" not in item]
+        if unsorted_items:
+            content += "## Other Overlays\n\n"
+            content += f"*{len(unsorted_items)} overlays without system tags*\n\n"
+            content += generate_grid(unsorted_items, component_type)
+    else:
+        # For non-overlay components, generate a single grid
+        content += generate_grid(valid_items, component_type)
 
     with open(f"{category_dir}/index.md", "w", encoding="utf-8") as f:
         f.write(content)
