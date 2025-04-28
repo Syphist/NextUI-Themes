@@ -1,3 +1,13 @@
 {
-  "submission": []
+  "submission": [
+    {
+      "type": "theme",
+      "name": "Nao-Black.theme",
+      "author": "Naotib",
+      "submission_method": "repository",
+      "url": "https://github.com/Naotib/Nao-Black.theme",
+      "commit": "352a98643f6fc46cc1a32c9ca626b1867c476ae2",
+      "branch": "main"
+    }
+  ]
 }
