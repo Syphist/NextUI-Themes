@@ -1,3 +1,16 @@
 {
-  "submission": []
+  "submission": [
+    {
+      "type": "theme",
+      "name": "Bottomless-Ocean.theme",
+      "author": "Shin",
+      "submission_method": "zip"
+    },
+    {
+      "type": "theme",
+      "name": "Pearly-Gate.theme",
+      "author": "Shin",
+      "submission_method": "zip"
+    }
+  ]
 }
