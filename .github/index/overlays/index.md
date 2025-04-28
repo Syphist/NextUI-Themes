@@ -4,7 +4,52 @@
 
 ## Filter by System
 
-[FC](#fc-overlays) | [GB](#gb-overlays) | [GBA](#gba-overlays) | [GBC](#gbc-overlays) | [GG](#gg-overlays) | [LYNX](#lynx-overlays) | [MD](#md-overlays) | [MGBA](#mgba-overlays) | [NGPC](#ngpc-overlays) | [SFC](#sfc-overlays) | [SUPA](#supa-overlays)
+<div style='display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;'>
+<a href='#fc-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>FC</div>
+FC
+</a>
+<a href='#gb-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>GB</div>
+GB
+</a>
+<a href='#gba-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>GBA</div>
+GBA
+</a>
+<a href='#gbc-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>GBC</div>
+GBC
+</a>
+<a href='#gg-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>GG</div>
+GG
+</a>
+<a href='#lynx-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>LYNX</div>
+LYNX
+</a>
+<a href='#md-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>MD</div>
+MD
+</a>
+<a href='#mgba-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>MGBA</div>
+MGBA
+</a>
+<a href='#ngpc-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>NGPC</div>
+NGPC
+</a>
+<a href='#sfc-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>SFC</div>
+SFC
+</a>
+<a href='#supa-overlays' style='text-align: center; display: inline-block; margin: 5px;'>
+<div style='width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc;'>SUPA</div>
+SUPA
+</a>
+</div>
 
 ## FC Overlays
 
