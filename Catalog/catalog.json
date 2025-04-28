@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-04-27T23:11:33.790477Z",
+  "last_updated": "2025-04-28T03:37:11.309682Z",
   "themes": {
     "Game-Rentals.theme": {
       "preview_path": "Catalog/.metadata/previews/Game-Rentals.theme.png",
@@ -139,6 +139,55 @@
       }
     },
     "overlays": {
+      "Vanilla.over": {
+        "preview_path": "Catalog/.metadata/previews/Vanilla.over.png",
+        "manifest_path": "Catalog/.metadata/manifests/Vanilla.over.json",
+        "author": "Shin",
+        "description": "Vanilla.over",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip",
+        "last_updated": "2025-04-28T03:37:11.309675Z",
+        "systems": [
+          "MD",
+          "MGBA",
+          "SFC"
+        ]
+      },
+      "Pearly-Gate.over": {
+        "preview_path": "Catalog/.metadata/previews/Pearly-Gate.over.png",
+        "manifest_path": "Catalog/.metadata/manifests/Pearly-Gate.over.json",
+        "author": "Shin",
+        "description": "Pearly-Gate.over",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Pearly-Gate.over.zip",
+        "last_updated": "2025-04-28T03:37:11.270981Z",
+        "systems": [
+          "FC",
+          "GB",
+          "GBA",
+          "GBC",
+          "GG",
+          "LYNX",
+          "MGBA",
+          "NGPC",
+          "SFC",
+          "SUPA"
+        ]
+      },
+      "Bottomless-Ocean.over": {
+        "preview_path": "Catalog/.metadata/previews/Bottomless-Ocean.over.png",
+        "manifest_path": "Catalog/.metadata/manifests/Bottomless-Ocean.over.json",
+        "author": "Shin",
+        "description": "Bottomless-Ocean.over",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Bottomless-Ocean.over.zip",
+        "last_updated": "2025-04-28T03:37:11.225046Z",
+        "systems": [
+          "GB",
+          "GBA",
+          "GBC",
+          "GG",
+          "LYNX",
+          "NGPC"
+        ]
+      },
       "Limited-Editions.over": {
         "preview_path": "Catalog/.metadata/previews/Limited-Editions.over.png",
         "manifest_path": "Catalog/.metadata/manifests/Limited-Editions.over.json",

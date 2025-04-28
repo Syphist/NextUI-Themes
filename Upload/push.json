@@ -1,22 +1,3 @@
 {
-  "submission": [
-    {
-      "type": "overlay",
-      "name": "Bottomless-Ocean.over",
-      "author": "Shin",
-      "submission_method": "zip"
-    },
-    {
-      "type": "overlay",
-      "name": "Pearly-Gate.over",
-      "author": "Shin",
-      "submission_method": "zip"
-    },
-    {
-      "type": "overlay",
-      "name": "Vanilla.over",
-      "author": "Shin",
-      "submission_method": "zip"
-    }
-  ]
+  "submission": []
 }
