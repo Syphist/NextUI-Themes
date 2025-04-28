@@ -1,5 +1,5 @@
 # Only track large theme packages with LFS
-*.theme.zip filter=lfs diff=lfs merge=lfs -text size:+75M
+*.theme.zip filter=lfs diff=lfs merge=lfs -text size=+75M
 
 # Don't use LFS for smaller files
 *.bg.zip -filter -diff -merge -text
