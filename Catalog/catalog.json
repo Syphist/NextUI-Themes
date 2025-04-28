@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-04-28T03:37:11.309682Z",
+  "last_updated": "2025-04-28T03:44:30.845644Z",
   "themes": {
     "Game-Rentals.theme": {
       "preview_path": "Catalog/.metadata/previews/Game-Rentals.theme.png",
@@ -70,7 +70,32 @@
   "components": {
     "accents": {},
     "leds": {},
-    "icons": {},
+    "icons": {
+      "Icons-Monochrome.icon": {
+        "preview_path": "Catalog/.metadata/previews/Icons-Monochrome.icon.png",
+        "manifest_path": "Catalog/.metadata/manifests/Icons-Monochrome.icon.json",
+        "author": "Sundownersport",
+        "description": "Icons-Monochrome.icon",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/icons/Icons-Monochrome.icon.zip",
+        "last_updated": "2025-04-28T03:44:30.845637Z"
+      },
+      "Icons-Color.icon": {
+        "preview_path": "Catalog/.metadata/previews/Icons-Color.icon.png",
+        "manifest_path": "Catalog/.metadata/manifests/Icons-Color.icon.json",
+        "author": "Sundownersport",
+        "description": "Icons-Color.icon",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/icons/Icons-Color.icon.zip",
+        "last_updated": "2025-04-28T03:44:30.830350Z"
+      },
+      "Controllers.icon": {
+        "preview_path": "Catalog/.metadata/previews/Controllers.icon.png",
+        "manifest_path": "Catalog/.metadata/manifests/Controllers.icon.json",
+        "author": "Sundownersport",
+        "description": "Controllers.icon",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/icons/Controllers.icon.zip",
+        "last_updated": "2025-04-28T03:44:30.812448Z"
+      }
+    },
     "fonts": {},
     "wallpapers": {
       "Sunset-Forest.bg": {

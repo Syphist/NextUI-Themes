@@ -1,22 +1,3 @@
 {
-  "submission": [
-    {
-      "type": "icon",
-      "name": "Controllers.icon",
-      "author": "Sundownersport",
-      "submission_method": "zip"
-    },
-    {
-      "type": "icon",
-      "name": "Icons-Color.icon",
-      "author": "Sundownersport",
-      "submission_method": "zip"
-    },
-    {
-      "type": "icon",
-      "name": "Icons-Monochrome.icon",
-      "author": "Sundownersport",
-      "submission_method": "zip"
-    }
-  ]
+  "submission": []
 }
