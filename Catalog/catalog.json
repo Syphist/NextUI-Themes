@@ -1,6 +1,22 @@
 {
-  "last_updated": "2025-04-28T03:44:30.845644Z",
+  "last_updated": "2025-04-28T03:50:03.043119Z",
   "themes": {
+    "Pearly-Gate.theme": {
+      "preview_path": "Catalog/.metadata/previews/Pearly-Gate.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Pearly-Gate.theme.json",
+      "author": "Shin",
+      "description": "Pearly-Gate.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pearly-Gate.theme.zip",
+      "last_updated": "2025-04-28T03:50:03.043107Z"
+    },
+    "Bottomless-Ocean.theme": {
+      "preview_path": "Catalog/.metadata/previews/Bottomless-Ocean.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Bottomless-Ocean.theme.json",
+      "author": "Shin",
+      "description": "Bottomless-Ocean.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Bottomless-Ocean.theme.zip",
+      "last_updated": "2025-04-28T03:50:02.918345Z"
+    },
     "Game-Rentals.theme": {
       "preview_path": "Catalog/.metadata/previews/Game-Rentals.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Game-Rentals.theme.json",
