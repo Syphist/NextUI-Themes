@@ -468,7 +468,7 @@ def update_catalog(submission, preview_path, manifest_path, package_url):
 
     # Add repository info if it's a repository submission
     if submission["submission_method"] == "repository":
-        entry["repository"] = submission["repository_url"]
+        entry["repository"] = submission.get("url", submission.get("repository_url", ""))
         entry["commit"] = submission["commit"]
         if "branch" in submission and submission["branch"] != "None":
             entry["branch"] = submission["branch"]
