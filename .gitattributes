@@ -1,7 +1,6 @@
-# Only track large theme packages with LFS
-*.theme.zip filter=lfs diff=lfs merge=lfs -text size=+75M
-
-# Don't use LFS for smaller files
+# Disable LFS tracking by default for all file types
+*.zip -filter -diff -merge -text
+*.theme.zip -filter -diff -merge -text
 *.bg.zip -filter -diff -merge -text
 *.icon.zip -filter -diff -merge -text
 *.over.zip -filter -diff -merge -text
