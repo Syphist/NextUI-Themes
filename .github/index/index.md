@@ -16,19 +16,6 @@ Browse and download themes and components for NextUI devices.
 <table align="center"><tr>
 <td align="center" valign="top" width="33%">
 
-<a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pearly-Gate.theme.zip">
-<img title="Name: Pearly-Gate.theme&#013;Author: Shin&#013;Last updated: 2025-04-28&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Pearly-Gate.theme.png" /><br/>
-<b>Pearly-Gate.theme</b>
-</a><br/>
-<sup><i>Shin</i></sup><br>
-<sub>
-<sup><a title="Last updated: 2025-04-28" href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Pearly-Gate.theme">2025-04-28</a></sup>
-
-</sub>
-</td>
-
-<td align="center" valign="top" width="33%">
-
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Bottomless-Ocean.theme.zip">
 <img title="Name: Bottomless-Ocean.theme&#013;Author: Shin&#013;Last updated: 2025-04-28&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Bottomless-Ocean.theme.png" /><br/>
 <b>Bottomless-Ocean.theme</b>
@@ -36,6 +23,19 @@ Browse and download themes and components for NextUI devices.
 <sup><i>Shin</i></sup><br>
 <sub>
 <sup><a title="Last updated: 2025-04-28" href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Bottomless-Ocean.theme">2025-04-28</a></sup>
+
+</sub>
+</td>
+
+<td align="center" valign="top" width="33%">
+
+<a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pearly-Gate.theme.zip">
+<img title="Name: Pearly-Gate.theme&#013;Author: Shin&#013;Last updated: 2025-04-28&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Pearly-Gate.theme.png" /><br/>
+<b>Pearly-Gate.theme</b>
+</a><br/>
+<sup><i>Shin</i></sup><br>
+<sub>
+<sup><a title="Last updated: 2025-04-28" href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Pearly-Gate.theme">2025-04-28</a></sup>
 
 </sub>
 </td>
