@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-04-28T15:52:51.694490Z",
+  "last_updated": "2025-04-28T16:05:47.458747Z",
   "themes": {
     "Bottomless-Ocean.theme": {
       "preview_path": "Catalog/.metadata/previews/Bottomless-Ocean.theme.png",
@@ -180,6 +180,19 @@
       }
     },
     "overlays": {
+      "Vanilla.over": {
+        "preview_path": "Catalog/.metadata/previews/Vanilla.over.png",
+        "manifest_path": "Catalog/.metadata/manifests/Vanilla.over.json",
+        "author": "Shin",
+        "description": "Vanilla.over",
+        "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip",
+        "last_updated": "2025-04-28T16:05:47.458733Z",
+        "systems": [
+          "MD",
+          "MGBA",
+          "SFC"
+        ]
+      },
       "Pearly-Gate.over": {
         "preview_path": "Catalog/.metadata/previews/Pearly-Gate.over.png",
         "manifest_path": "Catalog/.metadata/manifests/Pearly-Gate.over.json",
