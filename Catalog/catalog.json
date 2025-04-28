@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-04-28T16:05:47.458747Z",
+  "last_updated": "2025-04-28T16:14:53.470559Z",
   "themes": {
     "Bottomless-Ocean.theme": {
       "preview_path": "Catalog/.metadata/previews/Bottomless-Ocean.theme.png",
@@ -186,11 +186,18 @@
         "author": "Shin",
         "description": "Vanilla.over",
         "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip",
-        "last_updated": "2025-04-28T16:05:47.458733Z",
+        "last_updated": "2025-04-28T16:14:53.470544Z",
         "systems": [
-          "MD",
-          "MGBA",
-          "SFC"
+          "FC",
+          "GB",
+          "GBA",
+          "GBC",
+          "GG",
+          "LYNX",
+          "NGPC",
+          "PS",
+          "SFC",
+          "SUPA"
         ]
       },
       "Pearly-Gate.over": {

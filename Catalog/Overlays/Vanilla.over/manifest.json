@@ -8,7 +8,7 @@
     "exported_by": "Theme Manager v1.2-beta"
   },
   "content": {
-    "systems": ["MGBA", "SFC", "MD"]
+    "systems": ["FC", "GB", "GBA", "GBC", "GG", "LYNX", "NGPC", "PS", "SFC", "SUPA"]
   },
   "path_mappings": []
 }
