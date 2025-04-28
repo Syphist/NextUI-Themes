@@ -1,6 +1,17 @@
 {
-  "last_updated": "2025-04-28T16:14:53.470559Z",
+  "last_updated": "2025-04-28T16:52:59.239553Z",
   "themes": {
+    "Nao-Black.theme": {
+      "preview_path": "Catalog/.metadata/previews/Nao-Black.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Nao-Black.theme.json",
+      "author": "Naotib",
+      "description": "NaoBlack",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Nao-Black.theme.zip",
+      "last_updated": "2025-04-28T16:52:59.239539Z",
+      "repository": "https://github.com/Naotib/Nao-Black.theme",
+      "commit": "352a98643f6fc46cc1a32c9ca626b1867c476ae2",
+      "branch": "main"
+    },
     "Bottomless-Ocean.theme": {
       "preview_path": "Catalog/.metadata/previews/Bottomless-Ocean.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Bottomless-Ocean.theme.json",
