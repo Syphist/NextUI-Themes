@@ -1,24 +1,6 @@
 # Overlays
 
-*4 available overlays*
-
-## Vanilla.over
-
-*By Shin • Updated: 2025-04-28*
-
-<div align='center'><a href='https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip' style='display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;'>Download Vanilla.over</a></div>
-
-<div align='center'><a href='https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/overlays/Vanilla.over.zip'><img src='https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Vanilla.over.png' width='480px' alt='Vanilla.over'></a></div>
-
-### Supported Systems
-
-<div align='center'><table><tr>
-<td align='center' style='padding: 10px;'><b>MD</b></td>
-<td align='center' style='padding: 10px;'><b>MGBA</b></td>
-<td align='center' style='padding: 10px;'><b>SFC</b></td>
-</tr></table></div>
-
-<hr>
+*3 available overlays*
 
 ## Pearly-Gate.over
 
