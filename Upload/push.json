@@ -1,3 +1,11 @@
 {
-  "submission": []
+  "submission": [{
+    "type": "theme",
+    "name": "Fallout.theme",
+    "author": "Soko",
+    "submission_method": "repository",
+    "url": "https://github.com/Markeljan/nextui-fallout-theme",
+    "commit": "a4c470401cdd9947529986ef2c9d244a2b8ea2d9",
+    "branch": "main"
+  }]
 }
