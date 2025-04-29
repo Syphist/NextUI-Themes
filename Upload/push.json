@@ -1,3 +1,13 @@
 {
-  "submission": []
+  "submission": [
+    {
+      "type": "theme",
+      "name": "Artbook-NextUI.theme",
+      "author": "Timothy Bueno",
+      "submission_method": "repository",
+      "url": "https://github.com/timbueno/ArtBookNextUI.theme.git",
+      "commit": "21fba6d2b655b28793478dc51933b2544820dce2",
+      "branch": "main"
+    }
+  ]
 }
