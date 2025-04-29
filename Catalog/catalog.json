@@ -1,6 +1,17 @@
 {
-  "last_updated": "2025-04-28T16:52:59.239553Z",
+  "last_updated": "2025-04-29T01:00:33.923917Z",
   "themes": {
+    "Artbook-NextUI.theme": {
+      "preview_path": "Catalog/.metadata/previews/Artbook-NextUI.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Artbook-NextUI.theme.json",
+      "author": "Timothy Bueno",
+      "description": "Art Book NextUI",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Artbook-NextUI.theme.zip",
+      "last_updated": "2025-04-29T01:00:33.923905Z",
+      "repository": "https://github.com/timbueno/ArtBookNextUI.theme.git",
+      "commit": "21fba6d2b655b28793478dc51933b2544820dce2",
+      "branch": "main"
+    },
     "Nao-Black.theme": {
       "preview_path": "Catalog/.metadata/previews/Nao-Black.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Nao-Black.theme.json",
