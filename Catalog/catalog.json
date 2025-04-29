@@ -1,6 +1,17 @@
 {
-  "last_updated": "2025-04-29T01:00:33.923917Z",
+  "last_updated": "2025-04-29T03:10:40.481666Z",
   "themes": {
+    "Fallout.theme": {
+      "preview_path": "Catalog/.metadata/previews/Fallout.theme.png",
+      "manifest_path": "Catalog/.metadata/manifests/Fallout.theme.json",
+      "author": "Soko",
+      "description": "Fallout.theme",
+      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Fallout.theme.zip",
+      "last_updated": "2025-04-29T03:10:40.481652Z",
+      "repository": "https://github.com/Markeljan/nextui-fallout-theme",
+      "commit": "a4c470401cdd9947529986ef2c9d244a2b8ea2d9",
+      "branch": "main"
+    },
     "Artbook-NextUI.theme": {
       "preview_path": "Catalog/.metadata/previews/Artbook-NextUI.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/Artbook-NextUI.theme.json",
