@@ -1,8 +1,21 @@
 # Full Themes
 
-*11 available themes*
+*12 available themes*
 
 <table align="center"><tr>
+<td align="center" valign="top" width="33%">
+
+<a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Fallout.theme.zip">
+<img title="Name: Fallout.theme&#013;Author: Soko&#013;Last updated: 2025-04-29&#013;(Click to download)" width="480px" src="https://github.com/Leviathanium/NextUI-Themes/raw/main/Catalog/.metadata/previews/Fallout.theme.png" /><br/>
+<b>Fallout.theme</b>
+</a><br/>
+<sup><i>Soko</i></sup><br>
+<sub>
+<sup><a title="Last updated: 2025-04-29" href="https://github.com/Leviathanium/NextUI-Themes/commits/main/Catalog/Themes/Fallout.theme">2025-04-29</a></sup>
+
+</sub>
+</td>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Artbook-NextUI.theme.zip">
@@ -28,7 +41,7 @@
 
 </sub>
 </td>
-
+</tr><tr>
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Bottomless-Ocean.theme.zip">
@@ -41,7 +54,7 @@
 
 </sub>
 </td>
-</tr><tr>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pearly-Gate.theme.zip">
@@ -67,7 +80,7 @@
 
 </sub>
 </td>
-
+</tr><tr>
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Noir.theme.zip">
@@ -80,7 +93,7 @@
 
 </sub>
 </td>
-</tr><tr>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Pop-Tarts-Clean.theme.zip">
@@ -106,7 +119,7 @@
 
 </sub>
 </td>
-
+</tr><tr>
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Deep-Space.theme.zip">
@@ -119,7 +132,7 @@
 
 </sub>
 </td>
-</tr><tr>
+
 <td align="center" valign="top" width="33%">
 
 <a href="https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Consolized.theme.zip">
@@ -145,6 +158,5 @@
 
 </sub>
 </td>
-
 
 </tr></table>
