@@ -1,7 +1,7 @@
 {
   "last_updated": "2025-04-29T22:03:23.857648Z",
   "themes": {
-    "ArtBookNextUI.theme": {
+    "Artbook-NextUI.theme": {
       "preview_path": "Catalog/.metadata/previews/ArtBookNextUI.theme.png",
       "manifest_path": "Catalog/.metadata/manifests/ArtBookNextUI.theme.json",
       "author": "Timothy Bueno",
@@ -21,17 +21,6 @@
       "last_updated": "2025-04-29T03:10:40.481652Z",
       "repository": "https://github.com/Markeljan/nextui-fallout-theme",
       "commit": "a4c470401cdd9947529986ef2c9d244a2b8ea2d9",
-      "branch": "main"
-    },
-    "Artbook-NextUI.theme": {
-      "preview_path": "Catalog/.metadata/previews/Artbook-NextUI.theme.png",
-      "manifest_path": "Catalog/.metadata/manifests/Artbook-NextUI.theme.json",
-      "author": "Timothy Bueno",
-      "description": "Art Book NextUI",
-      "URL": "https://github.com/Leviathanium/NextUI-Themes/raw/main/Packages/themes/Artbook-NextUI.theme.zip",
-      "last_updated": "2025-04-29T01:00:33.923905Z",
-      "repository": "https://github.com/timbueno/ArtBookNextUI.theme.git",
-      "commit": "21fba6d2b655b28793478dc51933b2544820dce2",
       "branch": "main"
     },
     "Nao-Black.theme": {
