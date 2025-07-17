@@ -1,3 +1,10 @@
 {
-  "submission": []
+  "submission": [
+    {
+      "type": "theme",
+      "name": "Bliss.theme",
+      "author": "Syphist",
+      "submission_method": "zip"
+    }
+  ]
 }
